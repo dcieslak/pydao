@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
@@ -28,16 +28,25 @@ class SqlDao(AbstractDao.AbstractDao):
 
 	IntegrityError = None
 
-	def __init__(self, conn, logStream):
+	def __init__(self, conn, logStream, updateSqlStream):
+
+		"""
+		logStream is user to log all queries to database. It can be
+		used to track application efficiency (amount of SQL
+		generated).
+
+		updateSqlStream is used to render SQL queries that change
+		state of database. Those queries can be used to replicate
+		database state to another machine.
+		"""
 
 		AbstractDao.AbstractDao.__init__(self, logStream)
 		self._conn = conn
+		self._updateSqlStream = updateSqlStream
 
-	def listSQL(self, sqlQuery, clazz, argList = []):
+	def listSQL(self, sqlQuery, clazz, argList = ()):
 
 		self._logList("listSQL()", argList)
-		tableName = self._getTableName(clazz)
-		idName = self._getIdName(clazz)
 
 		self._logSql(sqlQuery)
 		c = self._conn.cursor()
@@ -52,11 +61,10 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		return result
 
-	def listWhere(self, whereClause, clazz, argList = []):
+	def listWhere(self, whereClause, clazz, argList = ()):
 
 		self._logClass("listWhere()", clazz, argList)
 		tableName = self._getTableName(clazz)
-		idName = self._getIdName(clazz)
 
 		obj = new.instance(clazz)
 		obj.__init__()
@@ -73,7 +81,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		if select.lower().find("sum") >= 0\
 		or select.lower().find("count") >= 0:
 			groupByList = []
-			for name, value in obj.__dict__.items():
+			for name in obj.__dict__.keys():
 				if name[0] != "_":
 					groupByList.append("T." + name)
 			s += " GROUP BY %s" % (string.join(groupByList, ", "))
@@ -101,7 +109,6 @@ class SqlDao(AbstractDao.AbstractDao):
 		self._log("list()", exampleObject)
 		clazz = exampleObject.__class__
 		tableName = self._getTableName(clazz)
-		idName = self._getIdName(clazz)
 
 		valueList = []
 		nameList = []
@@ -169,7 +176,6 @@ class SqlDao(AbstractDao.AbstractDao):
 			if name in lowerToAttributeName:
 				obj.__dict__[lowerToAttributeName[name]] = rowData[n]
 
-
 	def count(self, exampleObject):
 
 		self._log("count()", exampleObject)
@@ -227,6 +233,7 @@ class SqlDao(AbstractDao.AbstractDao):
 				"to delete all objects use deleteAll(class)"
 
 		self._logSql(s)
+		self._logUpdateSql(s, valueList)
 		c = self._conn.cursor()
 		c.execute(s, valueList)
 		c.close()
@@ -238,6 +245,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		s = "DELETE FROM %s" % tableName
 
 		self._logSql(s)
+		self._logUpdateSql(s, ())
 		c = self._conn.cursor()
 		c.execute(s)
 		c.close()
@@ -261,7 +269,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		if selectClause.lower().find("sum(") >= 0\
 		or selectClause.lower().find("count(") >= 0:
 			groupByList = []
-			for name, value in obj.__dict__.items():
+			for name in obj.__dict__.keys():
 				if name[0] != "_":
 					groupByList.append("T." + name)
 			s += " GROUP BY %s" % (string.join(groupByList, ", "))
@@ -300,6 +308,7 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		self._logSql(s)
 		self._logSql(repr(valueList))
+		self._logUpdateSql(s, valueList)
 		c = self._conn.cursor()
 		c.execute(s, valueList)
 		if not objectID.__dict__[idName]:
@@ -332,6 +341,7 @@ class SqlDao(AbstractDao.AbstractDao):
 			string.join(percentList, ","))
 
 		self._logSql(s)
+		self._logUpdateSql(s, valueList)
 		c = self._conn.cursor()
 		c.execute(s, valueList)
 		c.close()
@@ -379,7 +389,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		clazz = obj.__class__
 
 		names = []
-		for name, value in obj.__dict__.items():
+		for name in obj.__dict__.keys():
 			if name[0] != "_":
 				names.append("T." + name)
 
@@ -402,5 +412,11 @@ class SqlDao(AbstractDao.AbstractDao):
 	def _afterSaveHook(self, anObject):
 
 		pass
+
+	def _logUpdateSql(self, sqlQuery, arguments):
+
+		# TODO: fill implementation
+		pass
+
 
 

@@ -1,6 +1,6 @@
 PyDAO 0.9.3 (released ...)
 
-
+ - Added transaction support (commit(), rollback())
 
 PyDAO 0.9.2 (released 2007-07-07)
 

@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 

@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
@@ -7,11 +7,11 @@ import unittest
 
 def suite(dao):
 
-	suite = unittest.TestSuite()
+	s = unittest.TestSuite()
 	for methodName in dir(SqlDaoTest):
 		if methodName.startswith("test"):
-			suite.addTest(SqlDaoTest(dao, methodName))
-	return suite
+			s.addTest(SqlDaoTest(dao, methodName))
+	return s
 
 class SqlDaoTest(unittest.TestCase):
 

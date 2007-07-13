@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
@@ -40,7 +40,7 @@ class AbstractDao:
 		"""
 		return []
 
-	def listSQL(self, sqlQuery, clazz, argList = []):
+	def listSQL(self, sqlQuery, clazz, argList = ()):
 
 		"""
 		Retrieves list of objects of type clazz from records returned
@@ -55,7 +55,7 @@ class AbstractDao:
 		"""
 		return []
 
-	def listWhere(self, clazz, whereClause, argList = []):
+	def listWhere(self, clazz, whereClause, argList = ()):
 
 		"""
 		Retrieves list of objects of type clazz from records filtered

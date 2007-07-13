@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
@@ -13,11 +13,11 @@ import ArbitraryCondition
 
 def suite(dao):
 
-	suite = unittest.TestSuite()
+	s = unittest.TestSuite()
 	for methodName in dir(AbstractDaoTest):
 		if methodName.startswith("test"):
-			suite.addTest(AbstractDaoTest(dao, methodName))
-	return suite
+			s.addTest(AbstractDaoTest(dao, methodName))
+	return s
 
 class AbstractDaoTest(unittest.TestCase):
 
@@ -304,7 +304,7 @@ class AbstractDaoTest(unittest.TestCase):
 		"""
 
 		try:
-			obj = self.dao.load(Company, 1000000001)
+			self.dao.load(Company, 1000000001)
 			self.assert_(False)
 		except self.dao.MissingObjectError:
 			return

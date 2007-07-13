@@ -1,5 +1,5 @@
 """
-Author: Dariusz Cieslak, Aplikacja.info
+Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
@@ -21,9 +21,19 @@ class MysqlDao(SqlDao.SqlDao):
 
 	IntegrityError = _mysql_exceptions.IntegrityError
 
-	def __init__(self, conn, logStream = None):
+	def __init__(self, conn, logStream = None, updateSqlStream = None):
 
-		SqlDao.SqlDao.__init__(self, conn, logStream)
+		"""
+		logStream is user to log all queries to database. It can be
+		used to track application efficiency (amount of SQL
+		generated).
+
+		updateSqlStream is used to render SQL queries that change
+		state of database. Those queries can be used to replicate
+		database state to another machine.
+		"""
+
+		SqlDao.SqlDao.__init__(self, conn, logStream, updateSqlStream)
 
 	def _beforeSaveHook(self, anObject):
 

@@ -1,3 +1,8 @@
+"""
+Copyright: Dariusz Cieslak, Aplikacja.info
+http://aplikacja.info
+"""
+
 import string
 import Condition
 
