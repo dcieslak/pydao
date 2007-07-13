@@ -21,6 +21,8 @@ if __name__ == "__main__":
 	#logStream = sys.stderr
 	verbosity = 1
 
+	updateSqlStream = cStringIO.StringIO()
+
 	contract.checkmod(pydao.AbstractDao)
 	contract.checkmod(pydao.InMemoryDao)
 	contract.checkmod(pydao.SqlDao)
@@ -38,12 +40,16 @@ if __name__ == "__main__":
 		user = "pydao",
 		passwd = "pydao",
 		db = "pydao")
-	dao = pydao.MysqlDao.MysqlDao(conn, logStream)
+	dao = pydao.MysqlDao.MysqlDao(conn,
+		logStream = logStream,
+		updateSqlStream = updateSqlStream)
 	testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
 	testSuite.addTest(pydao.SqlDaoTest.suite(dao))
 
 	conn = psycopg.connect("dbname=template1 user=postgres")
-	dao = pydao.PostgresqlDao.PostgresqlDao(conn, logStream)
+	dao = pydao.PostgresqlDao.PostgresqlDao(conn,
+		logStream = logStream,
+		updateSqlStream = updateSqlStream)
 	testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
 	testSuite.addTest(pydao.SqlDaoTest.suite(dao))
 

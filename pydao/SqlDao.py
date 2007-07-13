@@ -7,6 +7,7 @@ import AbstractDao
 import Condition
 import string
 import new
+import datetime
 
 class SqlDao(AbstractDao.AbstractDao):
 
@@ -415,8 +416,27 @@ class SqlDao(AbstractDao.AbstractDao):
 
 	def _logUpdateSql(self, sqlQuery, arguments):
 
-		# TODO: fill implementation
-		pass
+		if not self._updateSqlStream:
+			return
+
+		args = []
+		for value in arguments:
+			if isinstance(value, datetime.datetime):
+				args.append(value.strftime("%Y-%m-%d %H:%M:%S"))
+			elif isinstance(value, str):
+				args.append("'" + value
+					.replace("\\", "\\\\")
+					.replace("'", "\\'") + "'")
+			elif value == None:
+				args.append("NULL")
+			else:
+				args.append(value)
+
+		try:
+			self._updateSqlStream.write(sqlQuery % tuple(args))
+		except TypeError:
+			raise Exception, (sqlQuery, args)
+		self._updateSqlStream.write(";\n")
 
 
 
