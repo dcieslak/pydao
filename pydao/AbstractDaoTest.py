@@ -214,19 +214,20 @@ class AbstractDaoTest(unittest.TestCase):
 		list(): check for value in given sequence
 		"""
 
+		isc = InSequenceCondition.InSequenceCondition()
+		isc.addValue(5000)
 		u = User()
-		u.salary = InSequenceCondition.InSequenceCondition()
-		u.salary.addValue(5000)
+		u.salary = isc
 		self.assertEquals(self.dao.count(u), 1,
 			"one object matches: %s" % self.dao.count(u))
 		self.assertEquals(self.dao.list(u)[0].login, "u1",
 			"u1.salary is in range")
 
-		u.salary.addValue(10000)
+		isc.addValue(10000)
 		self.assertEquals(self.dao.count(u), 1,
 			"still only one object matches")
 
-		u.salary.addValue(7000)
+		isc.addValue(7000)
 		self.assertEquals(self.dao.count(u), 2,
 			"two objects match")
 
@@ -358,6 +359,10 @@ class AbstractDaoTest(unittest.TestCase):
 		obj = self.dao.load(Company, self.c1.id)
 		self.assertEquals(obj.name, "ASDF",
 			"data updated")
+		
+		# code coverage
+		self.dao.commit()
+		self.dao.rollback()
 
 	def test_joined_data(self):
 
@@ -405,12 +410,13 @@ class AbstractDaoTest(unittest.TestCase):
 		ArbitraryCondition.
 		"""
 
+		ac = ArbitraryCondition.ArbitraryCondition()
 		u = User()
-		u.salary = ArbitraryCondition.ArbitraryCondition()
+		u.salary = ac
 		self.assertEquals(self.dao.count(u), 2,
 			"two object matches: %s" % self.dao.count(u))
 		
-		u.salary.addCriteria(
+		ac.addCriteria(
 			"T.salary <= %s",
 			lambda obj, args: obj.salary <= args[0],
 			[5000.0])

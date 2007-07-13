@@ -338,6 +338,14 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		self._afterSaveHook(objectID)
 
+	def commit(self):
+
+		self._conn.commit()
+
+	def rollback(self):
+
+		self._conn.rollback()
+
 	def _getTableName(self, clazz):
 
 		if clazz.__dict__.has_key("SQL_TABLE"):

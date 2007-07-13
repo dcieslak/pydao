@@ -38,7 +38,7 @@ class AbstractDao:
 		pre: exampleObject != None
 		pre: hasattr(exampleObject, "__class__")
 		"""
-		raise Exception, "unimplemented"
+		return []
 
 	def listSQL(self, sqlQuery, clazz, argList = []):
 
@@ -53,7 +53,7 @@ class AbstractDao:
 		pre: sqlQuery != None
 		pre: clazz != None
 		"""
-		raise Exception, "unimplemented"
+		return []
 
 	def listWhere(self, clazz, whereClause, argList = []):
 
@@ -68,7 +68,7 @@ class AbstractDao:
 		pre: whereClause2 != None
 		pre: clazz != None
 		"""
-		raise Exception, "unimplemented"
+		return []
 
 	def count(self, exampleObject):
 
@@ -149,6 +149,20 @@ class AbstractDao:
 		in object will remain unchanged in database.
 		"""
 		raise Exception, "unimplemented"
+
+	def commit(self):
+
+		"""
+		Commits current transaction (if choosen database backend
+		supports it). For InMemoryDao this method does nothing.
+		"""
+
+	def rollback(self):
+
+		"""
+		Rollbacks current transaction (if choosen database backend
+		supports it). For InMemoryDao this method does nothing.
+		"""
 
 	def _log(self, text, obj):
 
