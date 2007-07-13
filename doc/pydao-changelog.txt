@@ -1,0 +1,21 @@
+PyDAO 0.9.3 (released ...)
+
+
+
+PyDAO 0.9.2 (released 2007-07-07)
+
+  - Added InSequenceCondition
+  - Replaced pychecker by pylint
+  - API change: Codition.generateWhereSQL(columnName)
+  - Added ArbitraryCondition
+
+PyDAO 0.9.1 (released 2007-06-30)
+
+  - Added InRangeCondition, LikeCondition, NotNullCondition,
+	IsNullCondition
+  - Added pagination of results (firstResust, maxResults)
+
+PyDAO 0.9 (released 2007-06-27)
+
+  Initial version on sourceforge.
+

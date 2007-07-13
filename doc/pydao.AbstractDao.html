@@ -1,0 +1,116 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pydao.AbstractDao</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pydao.html"><font color="#ffffff">pydao</font></a>.AbstractDao</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/darek/public_html/pydao/pydao/AbstractDao.py">/home/darek/public_html/pydao/pydao/AbstractDao.py</a></font></td></tr></table>
+    <p><tt>Author:&nbsp;Dariusz&nbsp;Cieslak,&nbsp;Aplikacja.info<br>
+<a href="http://aplikacja.info">http://aplikacja.info</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pydao.AbstractDao.html#AbstractDao">AbstractDao</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AbstractDao">class <strong>AbstractDao</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Base&nbsp;class&nbsp;used&nbsp;to&nbsp;specify&nbsp;public&nbsp;dao&nbsp;interface.<br>
+&nbsp;<br>
+To&nbsp;specify&nbsp;identifier&nbsp;attribute&nbsp;different&nbsp;that&nbsp;"id"&nbsp;specify<br>
+class&nbsp;attribute&nbsp;"DAO_ID".<br>
+&nbsp;<br>
+&nbsp;-&nbsp;DAO_ID&nbsp;name&nbsp;of&nbsp;primary&nbsp;key,&nbsp;default&nbsp;=&nbsp;"id"<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="AbstractDao-__init__"><strong>__init__</strong></a>(self, logStream)</dt></dl>
+
+<dl><dt><a name="AbstractDao-count"><strong>count</strong></a>(self, exampleObject)</dt><dd><tt>Count&nbsp;elements&nbsp;that&nbsp;matches&nbsp;given&nbsp;template.<br>
+&nbsp;<br>
+pre:&nbsp;exampleObject&nbsp;!=&nbsp;None<br>
+pre:&nbsp;hasattr(exampleObject,&nbsp;"__class__")</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-delete"><strong>delete</strong></a>(self, exampleObject)</dt><dd><tt>Delets&nbsp;objects&nbsp;that&nbsp;match&nbsp;given&nbsp;template&nbsp;object<br>
+(attributes&nbsp;!=&nbsp;None).<br>
+&nbsp;<br>
+exampleObject&nbsp;must&nbsp;have&nbsp;at&nbsp;least&nbsp;one&nbsp;criterium&nbsp;filled&nbsp;else<br>
+exception&nbsp;will&nbsp;be&nbsp;raised&nbsp;(safety,&nbsp;to&nbsp;prevent&nbsp;accidencial<br>
+deletion).<br>
+&nbsp;<br>
+pre:&nbsp;exampleObject&nbsp;!=&nbsp;None<br>
+pre:&nbsp;hasattr(exampleObject,&nbsp;"__class__")</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-deleteAll"><strong>deleteAll</strong></a>(self, clazz)</dt><dd><tt>Delets&nbsp;all&nbsp;instances&nbsp;of&nbsp;given&nbsp;class.<br>
+&nbsp;<br>
+pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;the&nbsp;same&nbsp;type&nbsp;as&nbsp;exampleObject<br>
+filtered&nbsp;by&nbsp;fields&nbsp;that&nbsp;are&nbsp;!=&nbsp;None.&nbsp;Arguments&nbsp;firstResult&nbsp;and<br>
+maxResults&nbsp;allows&nbsp;you&nbsp;to&nbsp;do&nbsp;paging.<br>
+&nbsp;<br>
+pre:&nbsp;exampleObject&nbsp;!=&nbsp;None<br>
+pre:&nbsp;hasattr(exampleObject,&nbsp;"__class__")</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=[]</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;returned<br>
+by&nbsp;sqlQuery.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries&nbsp;all<br>
+records&nbsp;are&nbsp;returned.<br>
+&nbsp;<br>
+Attribute&nbsp;sqlQuery&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
+argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
+&nbsp;<br>
+pre:&nbsp;sqlQuery&nbsp;!=&nbsp;None<br>
+pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-listWhere"><strong>listWhere</strong></a>(self, clazz, whereClause, argList<font color="#909090">=[]</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;filtered<br>
+by&nbsp;SQL&nbsp;whereClause.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries<br>
+all&nbsp;records&nbsp;are&nbsp;returned.<br>
+&nbsp;<br>
+Attribute&nbsp;sqlWhere&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
+argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
+&nbsp;<br>
+pre:&nbsp;whereClause2&nbsp;!=&nbsp;None<br>
+pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database.&nbsp;If&nbsp;there's&nbsp;no&nbsp;object&nbsp;raises<br>
+an&nbsp;exception.</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-load2"><strong>load2</strong></a>(self, exampleObject)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database&nbsp;based&nbsp;on&nbsp;passed&nbsp;criteria.<br>
+&nbsp;<br>
+An&nbsp;execption&nbsp;is&nbsp;raised&nbsp;if&nbsp;no&nbsp;object&nbsp;(MissingObjectError)<br>
+or&nbsp;more&nbsp;than&nbsp;one&nbsp;object&nbsp;(NotUniqueObject)&nbsp;matches.</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-save"><strong>save</strong></a>(self, obj, ignoreNone<font color="#909090">=True</font>)</dt><dd><tt>Adds&nbsp;new&nbsp;object&nbsp;to&nbsp;database.&nbsp;If&nbsp;identifier&nbsp;is&nbsp;None&nbsp;it's<br>
+generated.&nbsp;After&nbsp;this&nbsp;call&nbsp;identifier&nbsp;is&nbsp;filled.<br>
+&nbsp;<br>
+If&nbsp;ignoreNone&nbsp;is&nbsp;True&nbsp;None&nbsp;attributes&nbsp;will&nbsp;not&nbsp;be&nbsp;written&nbsp;into<br>
+database.</tt></dd></dl>
+
+<dl><dt><a name="AbstractDao-update"><strong>update</strong></a>(self, obj, ignoreNone<font color="#909090">=True</font>)</dt><dd><tt>Updates&nbsp;object&nbsp;attributes&nbsp;based&nbsp;on&nbsp;identifier<br>
+attribute.<br>
+&nbsp;<br>
+If&nbsp;ignoreNone&nbsp;is&nbsp;True&nbsp;attributes&nbsp;that&nbsp;have&nbsp;None&nbsp;value<br>
+in&nbsp;object&nbsp;will&nbsp;remain&nbsp;unchanged&nbsp;in&nbsp;database.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>MissingObjectError</strong> = &lt;class pydao.AbstractDao.MissingObjectError&gt;</dl>
+
+<dl><dt><strong>NotUniqueObject</strong> = &lt;class pydao.AbstractDao.NotUniqueObject&gt;</dl>
+
+<dl><dt><strong>WrongArgumentsException</strong> = &lt;class pydao.AbstractDao.WrongArgumentsException&gt;</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

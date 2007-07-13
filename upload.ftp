@@ -1,0 +1,4 @@
+user anonymous
+open upload.sourceforge.net 
+mput /tmp/pydao*.tgz
+mput /tmp/pydao*.zip

@@ -1,0 +1,176 @@
+<html>
+<body>
+<h1>PyDAO - Python ORM (Object Relational Mapper)</h1>
+
+<p>
+Dariusz Cieslak, cieslakd@users.sourceforge.net
+</p>
+
+<p>
+<img src="uml1.png" align="right"
+style="margin-left: 30px; margin-right: 30px; margin-bottom: 30px;" />
+<i>PyDAO</i> is very thin object-relational mapper similar to
+<i>Hibernate</i> (but much simpler).
+It's created to speed-up application development.
+It's very simple, but powerful, based on <i>POPO</i>
+(Plain Old Python Objects).
+
+<a name="main"></a>
+<h2>Main features</h2>
+
+<ul>
+ <li> can use any database that has DB-API interface
+ <li> can work without database at all (useful for early phases of
+   development)
+ <li> speeds up unit testing (dedicated in memory database)
+</ul>
+
+<a name="not"></a>
+<h2>What is not handled</h2>
+
+<ul>
+ <li> automatic scheme generation
+   (one have to create scheme &quot;by hand&quot;)
+ <li> separate query language
+   (it's possible to use plain SQL if filtering by
+   example is not sufficient)
+ <li> automated handling of associations (foreign keys
+   are visible in source code)
+</ul>
+
+<a name="download"></a>
+<h2>Download</h2>
+
+<p>
+You can reach latest version of <i>PyDAO</i> on SourceForge:
+
+<blockquote>
+<a
+href="http://sourceforge.net/projects/pydao">http://sourceforge.net/projects/pydao</a>
+</blockquote>
+
+<a name="example"></a>
+<h2>Small example how to use PyDAO</h2>
+
+<pre>
+    class User:
+        def __init__(self):
+            self.id = None
+            self.login = None
+            self.password = None
+
+    dao = pydao.InMemoryDao()
+
+    # filling database
+    user = User()
+    user.login = "user1"
+    user.password = "roh8OoPh"
+    dao.save(user)
+
+    # filtering based on example
+    userSearch = User()
+    userSearch.login = "user1"
+    userList = dao.list(userSearch)
+
+    # updating
+    user.password = "eew8Me8g"
+    dao.update(user)
+</pre>
+
+<p>
+More examples how to use API can be found in
+<a href="AbstractDaoTest.txt">AbstractDaoTest.py</a>
+and 
+<a href="SqlDaoTest.txt">SqlDaoTest.py</a>.
+
+<a name="databases"></a>
+<h2>Supported databases</h2>
+
+<ul>
+  <li>
+    <a href="pydao.InMemoryDao.html">InMemoryDao</a>
+    - objects stored in memory
+  <li>
+    <a href="pydao.MysqlDao.html">MysqlDao</a>
+    - objects stored in MySQL database (tested with MySQLdb)
+  <li>
+    <a href="pydao.PostgresqlDao.html">PostgresqlDao</a>
+    - objects stored in PostgreSQL database
+    (tested with psycopg)
+</ul>
+
+<a name="logging"></a>
+<h2>Logging</h2>
+
+<p>
+You can redirect logs to any open stream (sys.stderr for example)
+to see API calls and resulting SQL queries (if back-end is SQL type).
+
+<pre>
+  save(): User {login='u1' }
+    INSERT INTO TEST_USER(login,password,companyID) VALUES(%s,%s,%s)
+  list(): User {}
+    SELECT T.*, TC.NAME AS _companyName FROM TEST_USER T\
+    LEFT JOIN TEST_COMPANY TC ON T.COMPANYID = TC.ID
+  save(): User {login='u2' }
+    INSERT INTO TEST_USER(login,password,companyID) VALUES(%s,%s,%s)
+  list(): User {}
+    SELECT T.*, TC.NAME AS _companyName FROM TEST_USER T\
+    LEFT JOIN TEST_COMPANY TC ON T.COMPANYID = TC.ID
+  delete(): User {}
+    DELETE FROM TEST_USER
+</pre>
+
+
+<a name="api"></a>
+<h2>API</h2>
+
+<ul>
+  <li> <a href="pydao.AbstractDao.html">AbstractDao</a>
+    <ul>
+      <li> <a href="pydao.InMemoryDao.html">InMemoryDao</a>
+      <li> <a href="pydao.SqlDao.html">SqlDao</a>
+        <ul>
+          <li> <a href="pydao.MysqlDao.html">MysqlDao</a>
+          <li> <a href="pydao.PostgresqlDao.html">PostgresqlDao</a>
+        </ul>
+    </ul>
+  <li> <a href="pydao.Condition.html">Condition</a>
+    <ul>
+      <li> <a href="pydao.InRangeCondition.html">InRangeCondition</a>
+      <li> <a href="pydao.InSequenceCondition.html">InSequenceCondition</a>
+      <li> <a href="pydao.IsNullCondition.html">IsNullCondition</a>
+      <li> <a href="pydao.NotNullCondition.html">NotNullCondition</a>
+      <li> <a href="pydao.LikeCondition.html">LikeCondition</a>
+      <li> <a href="pydao.ArbitraryCondition.html">ArbitraryCondition</a>
+    </ul>
+</ul>
+
+<a name="qa"></a>
+<h2>Quality Assurance</h2>
+
+<ul>
+
+<li>
+Project is tested using unit tests. Quality of testing is visible in
+<a href="pydao-coverage.txt">coverage</a> report. Coverage is based on
+<a
+href="http://www.garethrees.org/2001/12/04/python-coverage">coverage.py</a>
+module (thanks to Ned Batchelder).
+
+<li>
+Additionally public API is instrumented with Design By Contract
+expressions.
+I'm using
+<a href="http://www.wayforward.net/pycontract">pycontract</a>
+module (thanks to Terence Way).
+
+<li>
+Method of declaring attributes is compatible with lint-like
+tools for Python.
+For static analysis I'm currently using
+<a href="http://www.logilab.org/857">pylint</a>.
+</ul>
+
+</body>
+</html>

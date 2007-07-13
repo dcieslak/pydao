@@ -1,0 +1,72 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pydao.ArbitraryCondition</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pydao.html"><font color="#ffffff">pydao</font></a>.ArbitraryCondition</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/darek/public_html/pydao/pydao/ArbitraryCondition.py">/home/darek/public_html/pydao/pydao/ArbitraryCondition.py</a></font></td></tr></table>
+    <p><tt>Author:&nbsp;Dariusz&nbsp;Cieslak,&nbsp;Aplikacja.info<br>
+<a href="http://aplikacja.info">http://aplikacja.info</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.Condition.html">pydao.Condition</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pydao.Condition.html#Condition">pydao.Condition.Condition</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pydao.ArbitraryCondition.html#ArbitraryCondition">ArbitraryCondition</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArbitraryCondition">class <strong>ArbitraryCondition</strong></a>(<a href="pydao.Condition.html#Condition">pydao.Condition.Condition</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Allows&nbsp;to&nbsp;add&nbsp;arbitrary&nbsp;conditions&nbsp;to&nbsp;query.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ArbitraryCondition-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ArbitraryCondition-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ArbitraryCondition-addCriteria"><strong>addCriteria</strong></a>(self, sqlQuery, function, arguments)</dt><dd><tt>Add&nbsp;sqlQuery&nbsp;criterium&nbsp;(function&nbsp;for&nbsp;InMemoryDao)&nbsp;with<br>
+arguments.&nbsp;Arguments&nbsp;are&nbsp;used&nbsp;in&nbsp;sqlQuery&nbsp;by&nbsp;%s&nbsp;syntax&nbsp;and<br>
+are&nbsp;passed&nbsp;to&nbsp;function&nbsp;as&nbsp;second&nbsp;parameter&nbsp;(first&nbsp;one&nbsp;is<br>
+object&nbsp;being&nbsp;checked).<br>
+&nbsp;<br>
+Example&nbsp;call:<br>
+&nbsp;<br>
+&nbsp;&nbsp;c.<a href="#ArbitraryCondition-addCriteria">addCriteria</a>("T.salary&nbsp;&gt;&nbsp;%s",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lambda&nbsp;obj,&nbsp;args:&nbsp;obj.salary&nbsp;&gt;&nbsp;args[0],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[120.0])</tt></dd></dl>
+
+<dl><dt><a name="ArbitraryCondition-generateArgs"><strong>generateArgs</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ArbitraryCondition-generateWhereSQL"><strong>generateWhereSQL</strong></a>(self, fieldName)</dt></dl>
+
+<dl><dt><a name="ArbitraryCondition-validateObject"><strong>validateObject</strong></a>(self, obj)</dt></dl>
+
+<dl><dt><a name="ArbitraryCondition-validateValue"><strong>validateValue</strong></a>(self, value)</dt></dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

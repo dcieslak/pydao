@@ -1,0 +1,102 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pydao.SqlDao</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pydao.html"><font color="#ffffff">pydao</font></a>.SqlDao</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/darek/public_html/pydao/pydao/SqlDao.py">/home/darek/public_html/pydao/pydao/SqlDao.py</a></font></td></tr></table>
+    <p><tt>Author:&nbsp;Dariusz&nbsp;Cieslak,&nbsp;Aplikacja.info<br>
+<a href="http://aplikacja.info">http://aplikacja.info</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.AbstractDao.html">pydao.AbstractDao</a><br>
+</td><td width="25%" valign=top><a href="pydao.Condition.html">pydao.Condition</a><br>
+</td><td width="25%" valign=top><a href="new.html">new</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pydao.SqlDao.html#SqlDao">SqlDao</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SqlDao">class <strong>SqlDao</strong></a>(<a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>DAO&nbsp;implemented&nbsp;in&nbsp;basic&nbsp;SQL&nbsp;database.<br>
+&nbsp;<br>
+POPO&nbsp;can&nbsp;have&nbsp;additional&nbsp;class&nbsp;attributes&nbsp;that&nbsp;can&nbsp;reflect<br>
+database&nbsp;structure&nbsp;(uset&nbsp;T&nbsp;alias&nbsp;for&nbsp;table&nbsp;related&nbsp;to&nbsp;current<br>
+class):<br>
+&nbsp;<br>
+&nbsp;-&nbsp;SQL_TABLE&nbsp;name&nbsp;of&nbsp;a&nbsp;table,&nbsp;default&nbsp;=&nbsp;class&nbsp;name<br>
+&nbsp;-&nbsp;SQL_FROM&nbsp;additional&nbsp;from&nbsp;expression&nbsp;(LEFT&nbsp;JOIN&nbsp;...)<br>
+&nbsp;-&nbsp;SQL_SELECT&nbsp;additional&nbsp;select&nbsp;expression&nbsp;(XTZ.asdf&nbsp;AS&nbsp;_asdf&nbsp;...)<br>
+&nbsp;-&nbsp;SQL_ORDER&nbsp;order&nbsp;by&nbsp;expression&nbsp;(T.name&nbsp;...)<br>
+&nbsp;<br>
+If&nbsp;unique&nbsp;constraints&nbsp;are&nbsp;not&nbsp;satisfied&nbsp;an&nbsp;IntegrityError&nbsp;is<br>
+raised.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SqlDao-__init__"><strong>__init__</strong></a>(self, conn, logStream)</dt></dl>
+
+<dl><dt><a name="SqlDao-count"><strong>count</strong></a>(self, exampleObject)</dt></dl>
+
+<dl><dt><a name="SqlDao-delete"><strong>delete</strong></a>(self, exampleObject)</dt></dl>
+
+<dl><dt><a name="SqlDao-deleteAll"><strong>deleteAll</strong></a>(self, clazz)</dt></dl>
+
+<dl><dt><a name="SqlDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt></dl>
+
+<dl><dt><a name="SqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+
+<dl><dt><a name="SqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+
+<dl><dt><a name="SqlDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt></dl>
+
+<dl><dt><a name="SqlDao-save"><strong>save</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="SqlDao-update"><strong>update</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>IntegrityError</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>
+<dl><dt><a name="SqlDao-load2"><strong>load2</strong></a>(self, exampleObject)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database&nbsp;based&nbsp;on&nbsp;passed&nbsp;criteria.<br>
+&nbsp;<br>
+An&nbsp;execption&nbsp;is&nbsp;raised&nbsp;if&nbsp;no&nbsp;object&nbsp;(MissingObjectError)<br>
+or&nbsp;more&nbsp;than&nbsp;one&nbsp;object&nbsp;(NotUniqueObject)&nbsp;matches.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>
+<dl><dt><strong>MissingObjectError</strong> = &lt;class pydao.AbstractDao.MissingObjectError&gt;</dl>
+
+<dl><dt><strong>NotUniqueObject</strong> = &lt;class pydao.AbstractDao.NotUniqueObject&gt;</dl>
+
+<dl><dt><strong>WrongArgumentsException</strong> = &lt;class pydao.AbstractDao.WrongArgumentsException&gt;</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>
