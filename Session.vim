@@ -27,7 +27,7 @@ set background=dark
 set backspace=1
 set complete=.,t,w,b,u
 set errorfile=err
-set formatoptions=tcrqn1
+set formatoptions=tcrq
 set hidden
 set history=50
 set incsearch
@@ -37,12 +37,10 @@ set path=.,..
 set printoptions=paper:a4
 set ruler
 set runtimepath=~/.vim,/var/lib/vim/addons,/usr/share/vim/addons,/usr/share/vim/vimfiles,/usr/share/vim/vim70,/usr/share/vim/vimfiles/after,/usr/share/vim/addons/after,/var/lib/vim/addons/after,~/.vim/after
-set shiftwidth=4
 set shortmess=at
 set showcmd
 set showmatch
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
-set tabstop=4
 set textwidth=70
 set ttyscroll=3
 set viminfo='20,\"50
@@ -57,17 +55,10 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 Makefile
-badd +58 pydao/ArbitraryCondition.py
-badd +414 pydao/AbstractDaoTest.py
-badd +1 pydao/Condition.py
-badd +1 doc/pydao-changelog.txt
-badd +61 pydao/AbstractDao.py
-badd +21 test.py
-badd +31 pydao/InMemoryDao.py
-badd +34 pydao/SqlDao.py
-args Makefile
-edit test.py
+badd +1 .gitignore
+badd +1 pydao/.cvsignore
+silent! argdel *
+edit .gitignore
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -82,11 +73,11 @@ setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
 setlocal nocindent
-setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
-setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
-setlocal commentstring=#%s
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
 setlocal complete=.,t,w,b,u
 setlocal completefunc=
 setlocal nocopyindent
@@ -98,8 +89,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
-if &filetype != 'python'
-setlocal filetype=python
+if &filetype != ''
+setlocal filetype=
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -112,19 +103,19 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcrqn1
+setlocal formatoptions=tcrq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
-setlocal include=^s*\\(from\\|import\\)
-setlocal includeexpr=substitute(v:fname,'\\.','/','g')
+setlocal include=
+setlocal includeexpr=
 setlocal indentexpr=
-setlocal indentkeys=0{,0},:,!^F,o,O,e
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,128-255
+setlocal iskeyword=@,48-57,_,192-255
 setlocal keymap=
-setlocal keywordprg=pydoc
+setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
@@ -135,7 +126,7 @@ setlocal modifiable
 setlocal nrformats=octal,hex
 setlocal nonumber
 setlocal numberwidth=4
-setlocal omnifunc=pythoncomplete#Complete
+setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -144,7 +135,7 @@ setlocal noreadonly
 setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
-setlocal shiftwidth=4
+setlocal shiftwidth=8
 setlocal noshortname
 setlocal nosmartindent
 setlocal softtabstop=0
@@ -153,13 +144,13 @@ setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
 setlocal statusline=
-setlocal suffixesadd=.py
+setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'python'
-setlocal syntax=python
+if &syntax != ''
+setlocal syntax=
 endif
-setlocal tabstop=4
+setlocal tabstop=8
 setlocal tags=
 setlocal textwidth=70
 setlocal thesaurus=
@@ -169,12 +160,12 @@ set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 30) / 61)
+let s:l = 2 - ((1 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+2
+normal! 03l
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

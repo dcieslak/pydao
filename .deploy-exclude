@@ -1,0 +1,11 @@
+*.pyc
+*.swp
+*.replfilter
+*.cvsignore
+*.coverage
+*.deploy-exclude
+*tags
+*.vim
+*.vimrc
+*CVS*
+
