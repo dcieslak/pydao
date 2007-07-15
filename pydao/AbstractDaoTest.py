@@ -58,7 +58,8 @@ class AbstractDaoTest(unittest.TestCase):
 		self.dao.save(self.u1)
 
 		self.u2 = User()
-		self.u2.login = "u2"
+		# two characters in iso-8859-2 used for encoding tests
+		self.u2.login = "u2 login \xa3\xb1"
 		self.u2.salary = 7000
 		self.dao.save(self.u2)
 
@@ -70,7 +71,7 @@ class AbstractDaoTest(unittest.TestCase):
 		"""
 
 		userExample = User()
-		userExample.login = "u2"
+		userExample.login = "u2 login \xa3\xb1"
 		self.assertEquals(len(self.dao.list(userExample)), 1,
 			"one object in database matching query")
 		self.assertEquals(self.dao.list(userExample)[0].id, self.u2.id,
@@ -104,16 +105,16 @@ class AbstractDaoTest(unittest.TestCase):
 
 		userExample = User()
 
-		userExample.login = "%2"
+		userExample.login = "%\xa3\xb1"
 		uList = self.dao.list(userExample)
 		self.assertEquals(len(uList), 0,
 			"like not enabled")
 
-		userExample.login = LikeCondition.LikeCondition("%2")
+		userExample.login = LikeCondition.LikeCondition("%\xa3\xb1")
 		uList = self.dao.list(userExample)
 		self.assertEquals(len(uList), 1,
 			"one object in database matching query")
-		self.assertEquals(uList[0].login, "u2",
+		self.assertEquals(uList[0].login, "u2 login \xa3\xb1",
 			"one object in database matching query")
 
 		userExample.login = LikeCondition.LikeCondition("u%")
@@ -130,12 +131,12 @@ class AbstractDaoTest(unittest.TestCase):
 
 		userExample = User()
 
-		userExample.login = "%2"
+		userExample.login = "%\xa3\xb1"
 		self.assertEquals(
 		self.dao.count(userExample), 0,
 			"like not enabled")
 
-		userExample.login = LikeCondition.LikeCondition("%2")
+		userExample.login = LikeCondition.LikeCondition("%\xa3\xb1")
 		self.assertEquals(
 		self.dao.count(userExample), 1,
 			"one object in database matching query: %s" %
@@ -169,7 +170,7 @@ class AbstractDaoTest(unittest.TestCase):
 		u.companyID = IsNullCondition.IsNullCondition()
 		self.assertEquals(self.dao.count(u), 1,
 			"one object matches")
-		self.assertEquals(self.dao.list(u)[0].login, "u2",
+		self.assertEquals(self.dao.list(u)[0].login, "u2 login \xa3\xb1",
 			"u2.companyID IS NULL")
 
 	def test_NotNullCondition(self):
@@ -205,8 +206,9 @@ class AbstractDaoTest(unittest.TestCase):
 		u.salary = InRangeCondition.InRangeCondition(5001, 7000)
 		self.assertEquals(self.dao.count(u), 1,
 			"one object matches")
-		self.assertEquals(self.dao.list(u)[0].login, "u2",
-			"u2.salary is in range")
+		login = self.dao.list(u)[0].login
+		self.assertEquals(login, "u2 login \xa3\xb1",
+			"u2.salary is in range: %s" % `login`)
 
 	def test_InSequenceCondition(self):
 
@@ -251,7 +253,7 @@ class AbstractDaoTest(unittest.TestCase):
 		"""
 
 		userExample = User()
-		userExample.login = "u2"
+		userExample.login = "u2 login \xa3\xb1"
 		self.assertEquals(self.dao.count(userExample), 1,
 			"one object in database matching query")
 		userExample.login = None
@@ -399,7 +401,7 @@ class AbstractDaoTest(unittest.TestCase):
 			"one object in database")
 
 		u = User()
-		u.login = "u2"
+		u.login = "u2 login \xa3\xb1"
 		self.dao.save(u)
 		self.assertEquals(len(self.dao.list(userExample)), 2,
 			"two objects in database")

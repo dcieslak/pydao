@@ -29,7 +29,7 @@ class SqlDao(AbstractDao.AbstractDao):
 
 	IntegrityError = None
 
-	def __init__(self, conn, logStream, updateSqlStream):
+	def __init__(self, conn, logStream, updateSqlStream, encoding):
 
 		"""
 		logStream is user to log all queries to database. It can be
@@ -39,17 +39,28 @@ class SqlDao(AbstractDao.AbstractDao):
 		updateSqlStream is used to render SQL queries that change
 		state of database. Those queries can be used to replicate
 		database state to another machine.
+
+		If encoding is set PyDAO assumes that all data sent directly
+		to SQL backend and received from SQL backend shoud be Unicode.
+		PyDAO accepts and returns in this case strings with selected
+		encoding.
+
 		"""
 
 		AbstractDao.AbstractDao.__init__(self, logStream)
 		self._conn = conn
 		self._updateSqlStream = updateSqlStream
+		self._encoding = encoding
 
 	def listSQL(self, sqlQuery, clazz, argList = ()):
 
 		self._logList("listSQL()", argList)
 
 		self._logSql(sqlQuery)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			argList = self._decodeList(argList)
+
 		c = self._conn.cursor()
 		c.execute(sqlQuery, argList)
 		result = []
@@ -73,7 +84,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		sqlFrom = self._getTableFrom(clazz)
 		select = self._getTableSelectClause(obj)
 
-		s = "%s FROM %s T%s WHERE %s" % (
+		sqlQuery = "%s FROM %s T%s WHERE %s" % (
 			select,
 			tableName,
 			sqlFrom,
@@ -85,15 +96,19 @@ class SqlDao(AbstractDao.AbstractDao):
 			for name in obj.__dict__.keys():
 				if name[0] != "_":
 					groupByList.append("T." + name)
-			s += " GROUP BY %s" % (string.join(groupByList, ", "))
+			sqlQuery += " GROUP BY %s" % (string.join(groupByList, ", "))
 		
 		orderBy = self._getTableOrderBy(clazz)
 		if orderBy:
-			s += " ORDER BY " + orderBy
+			sqlQuery += " ORDER BY " + orderBy
 
-		self._logSql(s)
+		self._logSql(sqlQuery)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			argList = self._decodeList(argList)
+
 		c = self._conn.cursor()
-		c.execute(s, argList)
+		c.execute(sqlQuery, argList)
 		result = []
 		for t in c.fetchall():
 			obj = new.instance(clazz)
@@ -127,13 +142,13 @@ class SqlDao(AbstractDao.AbstractDao):
 		select = self._getTableSelectClause(exampleObject)
 
 		if nameList:
-			s = "%s FROM %s T%s WHERE TRUE %s" % (
+			sqlQuery = "%s FROM %s T%s WHERE TRUE %s" % (
 				select,
 				tableName,
 				sqlFrom,
 				string.join(nameList, ""))
 		else:
-			s = "%s FROM %s T%s" % (
+			sqlQuery = "%s FROM %s T%s" % (
 				select,
 				tableName,
 				sqlFrom,
@@ -145,17 +160,21 @@ class SqlDao(AbstractDao.AbstractDao):
 			for name, value in exampleObject.__dict__.items():
 				if name[0] != "_":
 					groupByList.append("T." + name)
-			s += " GROUP BY %s" % (string.join(groupByList, ", "))
+			sqlQuery += " GROUP BY %s" % (string.join(groupByList, ", "))
 		
 		orderBy = self._getTableOrderBy(clazz)
 		if orderBy:
-			s += " ORDER BY " + orderBy
+			sqlQuery += " ORDER BY " + orderBy
 		
-		s += " LIMIT %d OFFSET %d" % (maxResults, firstResult)
+		sqlQuery += " LIMIT %d OFFSET %d" % (maxResults, firstResult)
 
-		self._logSql(s)
+		self._logSql(sqlQuery)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			valueList = self._decodeList(valueList)
+
 		c = self._conn.cursor()
-		c.execute(s, valueList)
+		c.execute(sqlQuery, valueList)
 		result = []
 		for t in c.fetchall():
 			obj = new.instance(clazz)
@@ -174,8 +193,9 @@ class SqlDao(AbstractDao.AbstractDao):
 		
 		for n in range(0, len(rowData)):
 			name = cursor.description[n][0].lower()
+			value = self._encodeValue(rowData[n])
 			if name in lowerToAttributeName:
-				obj.__dict__[lowerToAttributeName[name]] = rowData[n]
+				obj.__dict__[lowerToAttributeName[name]] = value
 
 	def count(self, exampleObject):
 
@@ -197,19 +217,23 @@ class SqlDao(AbstractDao.AbstractDao):
 					valueList.append(value)
 
 		if nameList:
-			s = "SELECT COUNT(T.%s) FROM %s T WHERE TRUE %s" % (
+			sqlQuery = "SELECT COUNT(T.%s) FROM %s T WHERE TRUE %s" % (
 				idName,
 				tableName,
 				string.join(nameList, ","))
 		else:
-			s = "SELECT COUNT(%s) FROM %s" % (
+			sqlQuery = "SELECT COUNT(%s) FROM %s" % (
 				idName,
 				tableName
 			)
 
-		self._logSql(s)
+		self._logSql(sqlQuery)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			valueList = self._decodeList(valueList)
+
 		c = self._conn.cursor()
-		c.execute(s, valueList)
+		c.execute(sqlQuery, valueList)
 		arr = c.fetchone()
 		c.close()
 		return arr[0]
@@ -227,28 +251,35 @@ class SqlDao(AbstractDao.AbstractDao):
 				valueList.append(value)
 
 		if nameList:
-			s = "DELETE FROM %s WHERE %s" % (
+			sqlQuery = "DELETE FROM %s WHERE %s" % (
 				tableName, string.join(nameList, " AND "))
 		else:
 			raise self.WrongArgumentsException,\
 				"to delete all objects use deleteAll(class)"
 
-		self._logSql(s)
-		self._logUpdateSql(s, valueList)
+		self._logSql(sqlQuery)
+		self._logUpdateSql(sqlQuery, valueList)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			valueList = self._decodeList(valueList)
+
 		c = self._conn.cursor()
-		c.execute(s, valueList)
+		c.execute(sqlQuery, valueList)
 		c.close()
 
 	def deleteAll(self, clazz):
 
 		self._logClass("deleteAll()", clazz, None)
 		tableName = self._getTableName(clazz)
-		s = "DELETE FROM %s" % tableName
+		sqlQuery = "DELETE FROM %s" % tableName
 
-		self._logSql(s)
-		self._logUpdateSql(s, ())
+		self._logSql(sqlQuery)
+		self._logUpdateSql(sqlQuery, ())
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+
 		c = self._conn.cursor()
-		c.execute(s)
+		c.execute(sqlQuery)
 		c.close()
 
 	def load(self, clazz, objectID):
@@ -261,7 +292,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		obj.__init__()
 
 		selectClause = self._getTableSelectClause(obj)
-		s = "%s FROM %s T%s WHERE T.%s = %%s" % (
+		sqlQuery = "%s FROM %s T%s WHERE T.%s = %%s" % (
 			selectClause,
 			tableName,
 			self._getTableFrom(clazz),
@@ -273,11 +304,14 @@ class SqlDao(AbstractDao.AbstractDao):
 			for name in obj.__dict__.keys():
 				if name[0] != "_":
 					groupByList.append("T." + name)
-			s += " GROUP BY %s" % (string.join(groupByList, ", "))
+			sqlQuery += " GROUP BY %s" % (string.join(groupByList, ", "))
 		
-		self._logSql(s)
+		self._logSql(sqlQuery)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+
 		c = self._conn.cursor()
-		c.execute(s, [objectID,])
+		c.execute(sqlQuery, [self._decodeValue(objectID),])
 		t = c.fetchone()
 		if not t:
 			raise self.MissingObjectError, "not found: " + clazz.__name__\
@@ -301,17 +335,21 @@ class SqlDao(AbstractDao.AbstractDao):
 					nameList.append(name + " = %s")
 					valueList.append(value)
 
-		s = "UPDATE %s SET %s WHERE %s = %%s" % (
+		sqlQuery = "UPDATE %s SET %s WHERE %s = %%s" % (
 			tableName,
 			string.join(nameList, ","),
 			idName)
 		valueList.append(objectID.__dict__[idName])
 
-		self._logSql(s)
+		self._logSql(sqlQuery)
 		self._logSql(repr(valueList))
-		self._logUpdateSql(s, valueList)
+		self._logUpdateSql(sqlQuery, valueList)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			valueList = self._decodeList(valueList)
+
 		c = self._conn.cursor()
-		c.execute(s, valueList)
+		c.execute(sqlQuery, valueList)
 		if not objectID.__dict__[idName]:
 			objectID.__dict__[idName] = self._conn.insert_id()
 		c.close()
@@ -336,15 +374,19 @@ class SqlDao(AbstractDao.AbstractDao):
 					percentList.append("%s")
 					valueList.append(value)
 
-		s = "INSERT INTO %s(%s) VALUES(%s)" % (
+		sqlQuery = "INSERT INTO %s(%s) VALUES(%s)" % (
 			tableName,
 			string.join(nameList, ","),
 			string.join(percentList, ","))
 
-		self._logSql(s)
-		self._logUpdateSql(s, valueList)
+		self._logSql(sqlQuery)
+		self._logUpdateSql(sqlQuery, valueList)
+		if self._encoding:
+			sqlQuery = sqlQuery.decode(self._encoding)
+			valueList = self._decodeList(valueList)
+
 		c = self._conn.cursor()
-		c.execute(s, valueList)
+		c.execute(sqlQuery, valueList)
 		c.close()
 
 		self._afterSaveHook(objectID)
@@ -438,5 +480,35 @@ class SqlDao(AbstractDao.AbstractDao):
 			raise Exception, (sqlQuery, args)
 		self._updateSqlStream.write(";\n")
 
+	def _encodeValue(self, value):
+
+		if not self._encoding:
+			return value
+
+		if isinstance(value, unicode):
+			return value.encode(self._encoding)
+		else:
+			return value
+
+	def _decodeValue(self, value):
+
+		if not self._encoding:
+			return value
+
+		if isinstance(value, str):
+			return value.decode(self._encoding)
+		else:
+			return value
+
+	def _decodeList(self, lst):
+
+		if not self._encoding:
+			return lst
+
+		result = []
+		for value in lst:
+			result.append(self._decodeValue(value))
+
+		return result
 
 

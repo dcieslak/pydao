@@ -12,8 +12,12 @@ import pydao.SqlDao
 import pydao.AbstractDaoTest
 import pydao.SqlDaoTest
 import unittest
+import warnings
 
 import contract
+
+warnings.resetwarnings()
+warnings.filterwarnings("error")
 
 if __name__ == "__main__":
 
@@ -31,27 +35,47 @@ if __name__ == "__main__":
 
 	testSuite = unittest.TestSuite()
 
-	dao = pydao.InMemoryDao.InMemoryDao(logStream)
-	testSuite.addTest(pydao.AbstractDaoTest.suite(
-		dao))
+	if 1:
+		dao = pydao.InMemoryDao.InMemoryDao(logStream)
+		testSuite.addTest(pydao.AbstractDaoTest.suite(
+			dao))
 
-	conn = MySQLdb.connect(
-		host = "localhost",
-		user = "pydao",
-		passwd = "pydao",
-		db = "pydao")
-	dao = pydao.MysqlDao.MysqlDao(conn,
-		logStream = logStream,
-		updateSqlStream = updateSqlStream)
-	testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
-	testSuite.addTest(pydao.SqlDaoTest.suite(dao))
+	TEST_ENCODING = 1
+	if TEST_ENCODING:
+		connUnicode = MySQLdb.connect(
+			host = "localhost",
+			user = "pydao",
+			passwd = "pydao",
+			db = "pydao",
+			use_unicode = True,
+			charset = "latin2")
+		dao = pydao.MysqlDao.MysqlDao(connUnicode,
+			logStream = logStream,
+			updateSqlStream = updateSqlStream,
+			encoding = "iso-8859-2")
+		testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
+		testSuite.addTest(pydao.SqlDaoTest.suite(dao))
+	else:
+		connRaw = MySQLdb.connect(
+			host = "localhost",
+			user = "pydao",
+			passwd = "pydao",
+			db = "pydao",
+			use_unicode = False,
+			charset = "latin2")
+		dao = pydao.MysqlDao.MysqlDao(connRaw,
+			logStream = logStream,
+			updateSqlStream = updateSqlStream)
+		testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
+		testSuite.addTest(pydao.SqlDaoTest.suite(dao))
 
-	conn = psycopg.connect("dbname=template1 user=postgres")
-	dao = pydao.PostgresqlDao.PostgresqlDao(conn,
-		logStream = logStream,
-		updateSqlStream = updateSqlStream)
-	testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
-	testSuite.addTest(pydao.SqlDaoTest.suite(dao))
+	if 1:
+		conn = psycopg.connect("dbname=template1 user=postgres")
+		dao = pydao.PostgresqlDao.PostgresqlDao(conn,
+			logStream = logStream,
+			updateSqlStream = updateSqlStream)
+		testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
+		testSuite.addTest(pydao.SqlDaoTest.suite(dao))
 
 	# ---------------------------------
 	if 0:

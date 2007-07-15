@@ -54,6 +54,8 @@ db-mysql-init:
 db-postgresql-init:
 	psql -q template1 postgres < sql/test-scheme-postgresql.sql
 
+db-init: db-mysql-init db-postgresql-init
+
 pylint:
 	@python run_pylint.py \
 		--reports=n \
@@ -84,5 +86,9 @@ deploy: coverage gendoc
 f:
 	firefox doc/index.html
 
+
+git:
+	git-prune
+	git-repack
 
 
