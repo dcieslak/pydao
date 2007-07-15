@@ -449,7 +449,7 @@ class User:
 		self.companyID = None
 		# virtual attribute: not present in database
 		self._companyName = None
-		self._anotherAttribute = 123
+		self._anotherAttribute = None
 
 class Company:
 
@@ -458,9 +458,10 @@ class Company:
 	SQL_TABLE = "TEST_COMPANY"
 
 	def __init__(self):
+
 		self.id = None
 		self.name = None
-		self._anotherAttribute = "XYZ"
+		self._anotherAttribute = None
 
 class BigCompany:
 

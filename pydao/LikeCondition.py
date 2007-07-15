@@ -7,11 +7,21 @@ import Condition
 
 class LikeCondition(Condition.Condition):
 
-	def __init__(self, text):
+	def __init__(self, text, columnName = None):
+
+		"""
+		If tested column name is different (for example from joined
+		table) you can specifu columnName to use in condition. Used
+		only by SqlDao, ignored for InMemoryDao.
+		"""
 
 		self.text = text
+		self.columnName = columnName
 
 	def generateWhereSQL(self, columnName):
+
+		if self.columnName:
+			columnName = self.columnName
 
 		return columnName + " LIKE %s"
 

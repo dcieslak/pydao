@@ -200,7 +200,7 @@ class Company:
 	def __init__(self):
 		self.id = None
 		self.name = None
-		self._anotherAttribute = "XYZ"
+		self._anotherAttribute = None
 		self._numberOfUsers = None
 
 

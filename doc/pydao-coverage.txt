@@ -1,19 +1,20 @@
 Name                        Stmts   Exec  Cover   Missing
 ---------------------------------------------------------
 pydao/AbstractDao              59     59   100%   
-pydao/AbstractDaoTest         228    228   100%   
+pydao/AbstractDaoTest         231    231   100%   
 pydao/ArbitraryCondition       31     31   100%   
 pydao/Condition                 9      6    66%   19, 27, 35
 pydao/InMemoryDao             113    113   100%   
 pydao/InRangeCondition         15     14    93%   28
-pydao/InSequenceCondition      17     16    94%   28
+pydao/InSequenceCondition      17     16    94%   33
 pydao/IsNullCondition           8      8   100%   
-pydao/LikeCondition            15     14    93%   28
+pydao/LikeCondition            18     17    94%   38
 pydao/MysqlDao                 12     12   100%   
 pydao/NotNullCondition          8      8   100%   
+pydao/OrCondition              24      0     0%   6-43
 pydao/PostgresqlDao            17     17   100%   
-pydao/SqlDao                  250    248    99%   400, 404
+pydao/SqlDao                  315    239    75%   12, 69-71, 120, 126, 400, 404-512
 pydao/SqlDaoTest               96     96   100%   
 pydao/__init__                  0      0   100%   
 ---------------------------------------------------------
-TOTAL                         878    870    99%   
+TOTAL                         973    867    89%   
