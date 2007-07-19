@@ -57,7 +57,18 @@ database&nbsp;structure:<br>
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="MysqlDao-__init__"><strong>__init__</strong></a>(self, conn, logStream<font color="#909090">=None</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-__init__"><strong>__init__</strong></a>(self, conn, logStream<font color="#909090">=None</font>, updateSqlStream<font color="#909090">=None</font>, encoding<font color="#909090">=None</font>)</dt><dd><tt>logStream&nbsp;is&nbsp;user&nbsp;to&nbsp;log&nbsp;all&nbsp;queries&nbsp;to&nbsp;database.&nbsp;It&nbsp;can&nbsp;be<br>
+used&nbsp;to&nbsp;track&nbsp;application&nbsp;efficiency&nbsp;(amount&nbsp;of&nbsp;SQL<br>
+generated).<br>
+&nbsp;<br>
+updateSqlStream&nbsp;is&nbsp;used&nbsp;to&nbsp;render&nbsp;SQL&nbsp;queries&nbsp;that&nbsp;change<br>
+state&nbsp;of&nbsp;database.&nbsp;Those&nbsp;queries&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;replicate<br>
+database&nbsp;state&nbsp;to&nbsp;another&nbsp;machine.<br>
+&nbsp;<br>
+If&nbsp;encoding&nbsp;is&nbsp;set&nbsp;PyDAO&nbsp;assumes&nbsp;that&nbsp;all&nbsp;data&nbsp;sent&nbsp;directly<br>
+to&nbsp;SQL&nbsp;backend&nbsp;and&nbsp;received&nbsp;from&nbsp;SQL&nbsp;backend&nbsp;shoud&nbsp;be&nbsp;Unicode.<br>
+PyDAO&nbsp;accepts&nbsp;and&nbsp;returns&nbsp;in&nbsp;this&nbsp;case&nbsp;strings&nbsp;with&nbsp;selected<br>
+encoding.</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>
@@ -67,6 +78,8 @@ etc.</tt></dl>
 
 <hr>
 Methods inherited from <a href="pydao.SqlDao.html#SqlDao">pydao.SqlDao.SqlDao</a>:<br>
+<dl><dt><a name="MysqlDao-commit"><strong>commit</strong></a>(self)</dt></dl>
+
 <dl><dt><a name="MysqlDao-count"><strong>count</strong></a>(self, exampleObject)</dt></dl>
 
 <dl><dt><a name="MysqlDao-delete"><strong>delete</strong></a>(self, exampleObject)</dt></dl>
@@ -75,15 +88,17 @@ Methods inherited from <a href="pydao.SqlDao.html#SqlDao">pydao.SqlDao.SqlDao</a
 
 <dl><dt><a name="MysqlDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt></dl>
 
-<dl><dt><a name="MysqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>)</dt></dl>
 
-<dl><dt><a name="MysqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=()</font>)</dt></dl>
 
 <dl><dt><a name="MysqlDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt></dl>
 
-<dl><dt><a name="MysqlDao-save"><strong>save</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-rollback"><strong>rollback</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="MysqlDao-update"><strong>update</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-save"><strong>save</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="MysqlDao-update"><strong>update</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
 
 <hr>
 Methods inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>

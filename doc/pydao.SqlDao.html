@@ -19,10 +19,11 @@
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.AbstractDao.html">pydao.AbstractDao</a><br>
-</td><td width="25%" valign=top><a href="pydao.Condition.html">pydao.Condition</a><br>
-</td><td width="25%" valign=top><a href="new.html">new</a><br>
+<a href="pydao.Condition.html">pydao.Condition</a><br>
+</td><td width="25%" valign=top><a href="datetime.html">datetime</a><br>
+<a href="new.html">new</a><br>
 </td><td width="25%" valign=top><a href="string.html">string</a><br>
-</td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -59,7 +60,20 @@ If&nbsp;unique&nbsp;constraints&nbsp;are&nbsp;not&nbsp;satisfied&nbsp;an&nbsp;In
 raised.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="SqlDao-__init__"><strong>__init__</strong></a>(self, conn, logStream)</dt></dl>
+<dl><dt><a name="SqlDao-__init__"><strong>__init__</strong></a>(self, conn, logStream, updateSqlStream, encoding)</dt><dd><tt>logStream&nbsp;is&nbsp;user&nbsp;to&nbsp;log&nbsp;all&nbsp;queries&nbsp;to&nbsp;database.&nbsp;It&nbsp;can&nbsp;be<br>
+used&nbsp;to&nbsp;track&nbsp;application&nbsp;efficiency&nbsp;(amount&nbsp;of&nbsp;SQL<br>
+generated).<br>
+&nbsp;<br>
+updateSqlStream&nbsp;is&nbsp;used&nbsp;to&nbsp;render&nbsp;SQL&nbsp;queries&nbsp;that&nbsp;change<br>
+state&nbsp;of&nbsp;database.&nbsp;Those&nbsp;queries&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;replicate<br>
+database&nbsp;state&nbsp;to&nbsp;another&nbsp;machine.<br>
+&nbsp;<br>
+If&nbsp;encoding&nbsp;is&nbsp;set&nbsp;PyDAO&nbsp;assumes&nbsp;that&nbsp;all&nbsp;data&nbsp;sent&nbsp;directly<br>
+to&nbsp;SQL&nbsp;backend&nbsp;and&nbsp;received&nbsp;from&nbsp;SQL&nbsp;backend&nbsp;shoud&nbsp;be&nbsp;Unicode.<br>
+PyDAO&nbsp;accepts&nbsp;and&nbsp;returns&nbsp;in&nbsp;this&nbsp;case&nbsp;strings&nbsp;with&nbsp;selected<br>
+encoding.</tt></dd></dl>
+
+<dl><dt><a name="SqlDao-commit"><strong>commit</strong></a>(self)</dt></dl>
 
 <dl><dt><a name="SqlDao-count"><strong>count</strong></a>(self, exampleObject)</dt></dl>
 
@@ -69,15 +83,17 @@ raised.<br>&nbsp;</tt></td></tr>
 
 <dl><dt><a name="SqlDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt></dl>
 
-<dl><dt><a name="SqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+<dl><dt><a name="SqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>)</dt></dl>
 
-<dl><dt><a name="SqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=[]</font>)</dt></dl>
+<dl><dt><a name="SqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=()</font>)</dt></dl>
 
 <dl><dt><a name="SqlDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt></dl>
 
-<dl><dt><a name="SqlDao-save"><strong>save</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+<dl><dt><a name="SqlDao-rollback"><strong>rollback</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="SqlDao-update"><strong>update</strong></a>(self, objectID, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+<dl><dt><a name="SqlDao-save"><strong>save</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="SqlDao-update"><strong>update</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
 
 <hr>
 Data and other attributes defined here:<br>

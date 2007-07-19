@@ -1,0 +1,71 @@
+<html>
+<body>
+<h1>PyDAO User Guide</h1>
+
+<h2> Introduction to PyDAO </h2>
+
+<p>
+<p>
+<i>PyDAO</i> is very thin object-relational mapper similar to
+<i>Hibernate</i> (but much simpler).
+It's created to speed-up application development.
+It's very simple, but powerful, based on <i>POPO</i>
+(Plain Old Python Objects).
+</p>
+
+<h2> Architecture </h2>
+<h2> Configuration </h2>
+<h2> Persistent classes </h2>
+<h2> Basic O/R mapping </h2>
+<h2> Working with objects </h2>
+<h2> Transaction and concurrency </h2>
+<h2> Native SQL </h2>
+
+<p style="margin-left: 5%">Listing 1. <b>Common setup code for this guide</b><br />
+<tt>self.c1&nbsp;=&nbsp;Company()</tt><br />
+
+<tt>self.c1.id&nbsp;=&nbsp;111590</tt><br />
+
+<tt>self.c1.name&nbsp;=&nbsp;"c1"</tt><br />
+
+<tt>self.dao.save(self.c1)</tt><br />
+
+<tt>assert&nbsp;self.c1.id</tt><br />
+
+<tt></tt><br />
+
+<tt>self.c2&nbsp;=&nbsp;Company()</tt><br />
+
+<tt>self.c2.name&nbsp;=&nbsp;"c2"</tt><br />
+
+<tt>self.dao.save(self.c2)</tt><br />
+
+<tt></tt><br />
+
+<tt>self.u1&nbsp;=&nbsp;User()</tt><br />
+
+<tt>self.u1.login&nbsp;=&nbsp;"u1"</tt><br />
+
+<tt>self.u1.companyID&nbsp;=&nbsp;self.c2.id</tt><br />
+
+<tt>self.u1.salary&nbsp;=&nbsp;5000</tt><br />
+
+<tt>self.dao.save(self.u1)</tt><br />
+
+<tt></tt><br />
+
+<tt>self.u2&nbsp;=&nbsp;User()</tt><br />
+
+<tt>#&nbsp;two&nbsp;characters&nbsp;in&nbsp;iso-8859-2&nbsp;used&nbsp;for&nbsp;encoding&nbsp;tests</tt><br />
+
+<tt>self.u2.login&nbsp;=&nbsp;"u2&nbsp;login&nbsp;\xa3\xb1"</tt><br />
+
+<tt>self.u2.salary&nbsp;=&nbsp;7000</tt><br />
+
+<tt>self.dao.save(self.u2)</tt><br />
+
+</p>
+
+
+</body>
+</html>

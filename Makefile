@@ -28,7 +28,7 @@ coverage:
 doc/%.txt: pydao/%.py
 	cat $< > $@
 
-gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt
+gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/userguide.html
 	pydoc -w\
 		pydao.AbstractDao \
 		pydao.SqlDao \
@@ -43,6 +43,9 @@ gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt
 		pydao.LikeCondition \
 		pydao.InMemoryDao
 	mv pydao*html doc
+
+%.html: %.shtml
+	awk -f doc/doc.awk $< > $@
 
 #######################################################################
 # Databases

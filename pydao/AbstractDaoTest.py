@@ -46,6 +46,7 @@ class AbstractDaoTest(unittest.TestCase):
 		obj = User()
 		self.dao.list(obj)
 
+		# BEGIN setUp
 		self.c1 = Company()
 		self.c1.id = 111590
 		self.c1.name = "c1"
@@ -67,6 +68,7 @@ class AbstractDaoTest(unittest.TestCase):
 		self.u2.login = "u2 login \xa3\xb1"
 		self.u2.salary = 7000
 		self.dao.save(self.u2)
+		# END setUp
 
 	def test_list(self):
 
