@@ -321,15 +321,18 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		return obj
 
-	def update(self, objectID, ignoreNone = True):
+	def update(self, anObject, ignoreNone = True):
 
-		self._log("update()", objectID)
-		tableName = self._getTableName(objectID.__class__)
-		idName = self._getIdName(objectID.__class__)
+		self._log("update()", anObject)
+		tableName = self._getTableName(anObject.__class__)
+		idName = self._getIdName(anObject.__class__)
+		assert anObject.__dict__[idName],\
+			"object must have id field set before update(): "\
+				+ anObject
 
 		valueList = []
 		nameList = []
-		for name, value in objectID.__dict__.items():
+		for name, value in anObject.__dict__.items():
 			if name[0] != "_" and name != idName:
 				if (not ignoreNone) or value != None:
 					nameList.append(name + " = %s")
@@ -339,7 +342,7 @@ class SqlDao(AbstractDao.AbstractDao):
 			tableName,
 			string.join(nameList, ","),
 			idName)
-		valueList.append(objectID.__dict__[idName])
+		valueList.append(anObject.__dict__[idName])
 
 		self._logSql(sqlQuery)
 		self._logSql(repr(valueList))
@@ -350,23 +353,21 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		c = self._conn.cursor()
 		c.execute(sqlQuery, valueList)
-		if not objectID.__dict__[idName]:
-			objectID.__dict__[idName] = self._conn.insert_id()
 		c.close()
 
-	def save(self, objectID, ignoreNone = True):
+	def save(self, anObject, ignoreNone = True):
 
-		self._log("save()", objectID)
-		clazz = objectID.__class__
+		self._log("save()", anObject)
+		clazz = anObject.__class__
 		tableName = self._getTableName(clazz)
 		idName = self._getIdName(clazz)
 
-		self._beforeSaveHook(objectID)
+		self._beforeSaveHook(anObject)
 
 		valueList = []
 		nameList = []
 		percentList = []
-		for name, value in objectID.__dict__.items():
+		for name, value in anObject.__dict__.items():
 			if name[0] != "_"\
 			and (name != idName or value):
 				if (not ignoreNone) or value != None:
@@ -389,7 +390,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		c.execute(sqlQuery, valueList)
 		c.close()
 
-		self._afterSaveHook(objectID)
+		self._afterSaveHook(anObject)
 
 	def commit(self):
 
@@ -474,10 +475,7 @@ class SqlDao(AbstractDao.AbstractDao):
 			else:
 				args.append(value)
 
-		try:
-			self._updateSqlStream.write(sqlQuery % tuple(args))
-		except TypeError:
-			raise Exception, (sqlQuery, args)
+		self._updateSqlStream.write(sqlQuery % tuple(args))
 		self._updateSqlStream.write(";\n")
 
 	def _encodeValue(self, value):

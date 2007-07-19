@@ -10,6 +10,7 @@ import NotNullCondition
 import InRangeCondition
 import InSequenceCondition
 import ArbitraryCondition
+import OrCondition
 
 def suite(dao):
 
@@ -40,6 +41,10 @@ class AbstractDaoTest(unittest.TestCase):
 		self.dao.deleteAll(User)
 		self.dao.deleteAll(Company)
 		self.dao.deleteAll(BigCompany)
+
+		# list empty table
+		obj = User()
+		self.dao.list(obj)
 
 		self.c1 = Company()
 		self.c1.id = 111590
@@ -424,6 +429,30 @@ class AbstractDaoTest(unittest.TestCase):
 			[5000.0])
 		self.assertEquals(self.dao.count(u), 1,
 			"one object matches: %s" % self.dao.count(u))
+
+	def test_OrCondition(self):
+
+		"""
+		list(): check for value in range (BETWEEN operator)
+		"""
+
+		oc = OrCondition.OrCondition()
+		oc.addCondition(InRangeCondition.InRangeCondition(5000, 6900))
+
+		u = User()
+		u.salary = oc
+		self.assertEquals(self.dao.count(u), 1,
+			"one object matches: %s" % self.dao.count(u))
+		self.assertEquals(self.dao.list(u)[0].login, "u1",
+			"u1.salary is in range")
+
+		oc.addCondition(InRangeCondition.InRangeCondition(6999, 6999))
+		self.assertEquals(self.dao.count(u), 1,
+			"still only one object matches")
+
+		oc.addCondition(InRangeCondition.InRangeCondition(6999, 7000))
+		self.assertEquals(self.dao.count(u), 2,
+			"two objects matches")
 
 def _userLoad(dao, user):
 

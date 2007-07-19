@@ -53,6 +53,16 @@ class SqlDaoTest(unittest.TestCase):
 		self.u2.login = "u2"
 		self.dao.save(self.u2)
 
+	def test_missing_SQL_TABLE(self):
+
+		"""
+		If SQL_TABLE field is missing use class name.
+		(Improve coverage).
+		"""
+
+		self.assertEquals(len(self.dao.list(TEST_COMPANY())), 2,
+			"read from TEST_COMPANY table")
+
 	def test_listSQL(self):
 
 		"""
@@ -163,12 +173,6 @@ class SqlDaoTest(unittest.TestCase):
 			"value from aggregate function")
 
 
-def _userLoad(dao, user):
-
-	if user.companyID:
-		c = dao.load(Company, user.companyID)
-		user._companyName = c.name
-
 class User:
 
 	DAO_ID = "id"
@@ -178,7 +182,6 @@ class User:
 	SQL_FROM = "LEFT JOIN TEST_COMPANY TC"\
 	    " ON T.COMPANYID = TC.ID"
 	SQL_SELECT = "TC.NAME AS _companyName"
-	INMEMORY_LOAD = _userLoad
 
 	def __init__(self):
 		self.id = None
@@ -196,6 +199,21 @@ class Company:
 	SQL_TABLE = "TEST_COMPANY"
 	SQL_FROM = "LEFT JOIN TEST_USER U ON U.companyID = T.id"
 	SQL_SELECT = "COUNT(U.id) AS _numberOfUsers"
+	SQL_ORDERBY = "_numberOfUsers"
+
+	def __init__(self):
+		self.id = None
+		self.name = None
+		self._anotherAttribute = None
+		self._numberOfUsers = None
+
+class TEST_COMPANY:
+
+	DAO_ID = "id"
+	SQL_SEQUENCE = "TEST_COMPANY_ID"
+	SQL_FROM = "LEFT JOIN TEST_USER U ON U.companyID = T.id"
+	SQL_SELECT = "COUNT(U.id) AS _numberOfUsers"
+	SQL_ORDERBY = "_numberOfUsers"
 
 	def __init__(self):
 		self.id = None
