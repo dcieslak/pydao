@@ -1,7 +1,7 @@
 NAME=pydao
 VER=0.9.3
 
-all: dynamic-check
+all: dynamic-check doc/pydao-userguide.html
 
 F9: all
 F10: static-check
@@ -28,7 +28,7 @@ coverage:
 doc/%.txt: pydao/%.py
 	cat $< > $@
 
-gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/userguide.html
+gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/pydao-userguide.html
 	pydoc -w\
 		pydao.AbstractDao \
 		pydao.SqlDao \
@@ -44,8 +44,8 @@ gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/userguide.html
 		pydao.InMemoryDao
 	mv pydao*html doc
 
-%.html: %.shtml
-	awk -f doc/doc.awk $< > $@
+%.html: %.shtml utils/doc.awk pydao/GuideTest.py
+	awk -f utils/doc.awk $< > $@
 
 #######################################################################
 # Databases

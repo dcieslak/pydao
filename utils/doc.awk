@@ -1,5 +1,6 @@
-
 BEGIN {
+	section = 0
+	subsection = 0
 	print "<html>"
 	print "<body>"
 	nListing = 1
@@ -24,6 +25,44 @@ BEGIN {
 	RAMKA_END = "</td></tr></table>"
 	NOP = " "
 }
+
+NR == 1 {
+	TOC = FILENAME ".toc"
+	while(1) {
+		result = getline a < TOC
+		if (result <= 0) {
+			break
+		}
+		toc = toc a
+	}
+	print "" > TOC
+}
+
+function print_toc(number, prefix, s) {
+	gsub(/<[^>]*>/, "", s)
+	print prefix number ". <a href=\"#" number "\">" s "</a><br />" >> TOC
+	print "<a name=\"" number "\"></a>"
+}
+
+/<toc>/ {
+	print toc
+}
+
+/<h2>/ {
+	section ++
+	subsection = 0
+	print_toc(section, "", $0)
+	sub(/<h2>/, "<h2> " section ". ", $0)
+}
+
+/<h3>/ {
+	subsection ++
+	print_toc(section "." subsection, "&nbsp;&nbsp;&nbsp;", $0)
+	sub(/<h3>/, "<h3> " section "." subsection ". ", $0)
+}
+
+
+
 
 $0 == "" {
 	if(emptyLineAction)
@@ -205,5 +244,12 @@ END {
 	print "</html>"
 	exit(result)
 }
+
+
+
+
+
+
+
 
 

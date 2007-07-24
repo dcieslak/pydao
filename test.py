@@ -10,6 +10,7 @@ import pydao.MysqlDao
 import pydao.PostgresqlDao
 import pydao.SqlDao
 import pydao.AbstractDaoTest
+import pydao.GuideTest
 import pydao.SqlDaoTest
 import unittest
 import warnings
@@ -55,6 +56,7 @@ if __name__ == "__main__":
 			encoding = "iso-8859-2")
 		testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
 		testSuite.addTest(pydao.SqlDaoTest.suite(dao))
+		testSuite.addTest(pydao.GuideTest.suite(dao))
 	else:
 		connRaw = MySQLdb.connect(
 			host = "localhost",
@@ -68,6 +70,7 @@ if __name__ == "__main__":
 			updateSqlStream = updateSqlStream)
 		testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
 		testSuite.addTest(pydao.SqlDaoTest.suite(dao))
+		testSuite.addTest(pydao.GuideTest.suite(dao))
 
 	if 1:
 		conn = psycopg.connect("dbname=template1 user=postgres")

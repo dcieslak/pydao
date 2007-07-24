@@ -1,0 +1,67 @@
+<h1>PyDAO User Guide</h1>
+
+<p>
+Table of contents
+
+<blockquote>
+<toc>
+</blockquote>
+
+<h2> Introduction to PyDAO by Example </h2>
+
+<p>
+<i>PyDAO</i> is very thin object-relational mapper similar to
+<i>Hibernate</i> (but much simpler).
+It's created to speed-up application development.
+It's very simple, but powerful, based on <i>POPO</i>
+(Plain Old Python Objects).
+
+<h3> Simple CRUD (Create/Read/Update/Delete) example </h3>
+
+<p>
+First of all, we have to define our object that we will operate on:
+
+INCLUDE|pydao/GuideTest.py|TEST_USER|Simple POPO (Plain Old Python Object)
+
+<p>
+As you can see, no fields types have to be declared.
+Then we can insert first object into database:
+
+INCLUDE|pydao/GuideTest.py|test_simple_insert|Inserting of objects into database
+
+<p>
+Above code works with no change with InMemoryDao and MysqlDao
+implementations. This allows you to start with in memory database
+and continue if database scheme is stable.
+
+<p>
+Now object is inserted into database and is ready to be read:
+
+INCLUDE|pydao/GuideTest.py|test_simple_list|Getting list of objects from database
+
+<p>
+As you can see wee specify fields that should be used to filter data
+and PyDAO returns list of matching objects (one in this case).
+Similar technique is used to update existing records into database.
+We must specify id field and fields that should be changed:
+
+INCLUDE|pydao/GuideTest.py|test_simple_update|Changing data of existing objects
+
+<p>
+At least we may want to delete some records from database:
+
+INCLUDE|pydao/GuideTest.py|test_simple_delete|Deleting of objects based on example
+
+<p>
+Notice that we are using here more powerful technique to
+select subset of record
+(see: <a href="pydao.InRangeCondition.html">InRangeCondition.py</a>).
+
+<h3> Managing associations </h3>
+
+<p> TODO
+
+<h3> Customisation </h3>
+
+<p> TODO
+

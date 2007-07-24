@@ -247,12 +247,17 @@ class SqlDao(AbstractDao.AbstractDao):
 		nameList = []
 		for name, value in exampleObject.__dict__.items():
 			if value != None:
-				nameList.append(name + " = %s")
-				valueList.append(value)
+				if isinstance(value, Condition.Condition):
+					nameList.append(" AND " +
+						value.generateWhereSQL(name))
+					valueList += value.generateArgs()
+				else:
+					nameList.append(" AND " + name + " = %s")
+					valueList.append(value)
 
 		if nameList:
-			sqlQuery = "DELETE FROM %s WHERE %s" % (
-				tableName, string.join(nameList, " AND "))
+			sqlQuery = "DELETE FROM %s WHERE TRUE %s" % (
+				tableName, string.join(nameList, " "))
 		else:
 			raise self.WrongArgumentsException,\
 				"to delete all objects use deleteAll(class)"

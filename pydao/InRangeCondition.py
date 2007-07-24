@@ -7,6 +7,10 @@ import Condition
 
 class InRangeCondition(Condition.Condition):
 
+	"""
+	Checks that selected value is in given range.
+	"""
+
 	def __init__(self, minValue, maxValue):
 
 		self.minValue = minValue
