@@ -8,9 +8,12 @@ F10: static-check
 
 static-check: pylint
 
-dynamic-check:
+dynamic-check: test
 	@echo dynamic-check
 	@time -p python -tt test.py
+
+test:
+	mkdir test
 
 clean:
 	rm `find . -name \*.pyc -o -name \*.log -o -name \*.bak`
@@ -42,6 +45,7 @@ gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/pydao-userguide.html
 		pydao.ArbitraryCondition \
 		pydao.LikeCondition \
 		pydao.SimpleDao \
+		pydao.XmlStorageDao \
 		pydao.InMemoryDao
 	mv pydao*html doc
 

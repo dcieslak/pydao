@@ -91,10 +91,13 @@ class SimpleDao(AbstractDao.AbstractDao):
 		assert anObject
 		idName = self._getIdName(anObject.__class__)
 		if not anObject.__dict__[idName]:
-			anObject.__dict__[idName] = self._newId()
+			anObject.__dict__[idName] = self._newId(
+				anObject.__class__.__name__)
 		clazz = anObject.__class__
 		anObjectList = self._getWholeList(clazz)
 		anObjectList.append(anObject)
+
+		self._replaceWholeList(clazz, anObjectList)
 
 	def load(self, clazz, objectID):
 
@@ -127,11 +130,12 @@ class SimpleDao(AbstractDao.AbstractDao):
 				for name, value in anObject.__dict__.items():
 					if not ignoreNone or value:
 						t.__dict__[name] = value
+				self._replaceWholeList(clazz, anObjectList)
 				return
 		raise self.MissingObjectError,\
 			"not found: %s@%s" % (clazz.__name__, anObject.id)
 
-	def _newId(self):
+	def _newId(self, className):
 		
 		"""
 		Returns generated identifier.

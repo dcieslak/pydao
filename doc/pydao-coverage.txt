@@ -14,9 +14,11 @@ pydao/MysqlDao                 12     12   100%
 pydao/NotNullCondition          8      8   100%   
 pydao/OrCondition              24     24   100%   
 pydao/PostgresqlDao            17     17   100%   
-pydao/SimpleDao               102    100    98%   139, 146
+pydao/SimpleDao               104    103    99%   150
 pydao/SqlDao                  314    313    99%   463
 pydao/SqlDaoTest              105    105   100%   
+pydao/XmlStorageDao            71     69    97%   41, 66
+pydao/XmlStorageDaoTest        29     29   100%   
 pydao/__init__                  0      0   100%   
 ---------------------------------------------------------
-TOTAL                        1042   1021    97%   
+TOTAL                        1144   1122    98%   

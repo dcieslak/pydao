@@ -3,15 +3,17 @@ sys.path.append("lib")
 
 import ConfigParser
 import MySQLdb
-import psycopg
 import cStringIO
+import psycopg
+import pydao.AbstractDaoTest
+import pydao.GuideTest
 import pydao.InMemoryDao
 import pydao.MysqlDao
 import pydao.PostgresqlDao
 import pydao.SqlDao
-import pydao.AbstractDaoTest
-import pydao.GuideTest
 import pydao.SqlDaoTest
+import pydao.XmlStorageDao
+import pydao.XmlStorageDaoTest
 import unittest
 import warnings
 
@@ -36,10 +38,10 @@ if __name__ == "__main__":
 
 	testSuite = unittest.TestSuite()
 
-	if 1:
-		dao = pydao.InMemoryDao.InMemoryDao(logStream)
-		testSuite.addTest(pydao.AbstractDaoTest.suite(
-			dao))
+	dao = pydao.InMemoryDao.InMemoryDao(logStream)
+	testSuite.addTest(pydao.AbstractDaoTest.suite(dao))
+
+	testSuite.addTest(pydao.XmlStorageDaoTest.suite())
 
 	TEST_ENCODING = 1
 	if TEST_ENCODING:

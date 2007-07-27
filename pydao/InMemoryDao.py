@@ -23,7 +23,7 @@ class InMemoryDao(SimpleDao.SimpleDao):
 		self._n = 1000
 		self._classNameToList = {}
 
-	def _newId(self):
+	def _newId(self, className):
 
 		result = self._n
 		self._n += 1
