@@ -4,8 +4,8 @@ pydao/AbstractDao              59     48    81%   41, 56, 71, 81, 96, 105, 116, 
 pydao/AbstractDaoTest         245    245   100%   
 pydao/ArbitraryCondition       31     31   100%   
 pydao/Condition                 9      6    66%   19, 27, 35
-pydao/GuideTest                71     58    81%   66-68, 92-99, 109-111
-pydao/InMemoryDao             113    111    98%   156-157
+pydao/GuideTest                38     38   100%   
+pydao/InMemoryDao              20     19    95%   38
 pydao/InRangeCondition         15     15   100%   
 pydao/InSequenceCondition      17     16    94%   33
 pydao/IsNullCondition           8      8   100%   
@@ -14,8 +14,9 @@ pydao/MysqlDao                 12     12   100%
 pydao/NotNullCondition          8      8   100%   
 pydao/OrCondition              24     24   100%   
 pydao/PostgresqlDao            17     17   100%   
+pydao/SimpleDao               102    100    98%   139, 146
 pydao/SqlDao                  314    313    99%   463
 pydao/SqlDaoTest              105    105   100%   
 pydao/__init__                  0      0   100%   
 ---------------------------------------------------------
-TOTAL                        1066   1033    96%   
+TOTAL                        1042   1021    97%   

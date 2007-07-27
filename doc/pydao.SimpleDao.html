@@ -1,0 +1,112 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pydao.SimpleDao</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pydao.html"><font color="#ffffff">pydao</font></a>.SimpleDao</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/darek/public_html/pydao/pydao/SimpleDao.py">/home/darek/public_html/pydao/pydao/SimpleDao.py</a></font></td></tr></table>
+    <p><tt>Copyright:&nbsp;Dariusz&nbsp;Cieslak,&nbsp;Aplikacja.info<br>
+<a href="http://aplikacja.info">http://aplikacja.info</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.AbstractDao.html">pydao.AbstractDao</a><br>
+</td><td width="25%" valign=top><a href="pydao.Condition.html">pydao.Condition</a><br>
+</td><td width="25%" valign=top><a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pydao.SimpleDao.html#SimpleDao">SimpleDao</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SimpleDao">class <strong>SimpleDao</strong></a>(<a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>DAO&nbsp;implemented&nbsp;without&nbsp;SQL&nbsp;backend.<br>
+&nbsp;<br>
+Class&nbsp;attributes:<br>
+&nbsp;<br>
+&nbsp;-&nbsp;INMEMORY_LOAD:&nbsp;procedure&nbsp;wth&nbsp;args&nbsp;dao,&nbsp;object&nbsp;to&nbsp;update<br>
+&nbsp;&nbsp;&nbsp;object&nbsp;before&nbsp;return&nbsp;from&nbsp;<a href="#SimpleDao-list">list</a>()&nbsp;and&nbsp;<a href="#SimpleDao-load">load</a>()&nbsp;methods<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SimpleDao-__init__"><strong>__init__</strong></a>(self, logStream<font color="#909090">=None</font>)</dt><dd><tt>logStream:&nbsp;output&nbsp;of&nbsp;logging&nbsp;messages.</tt></dd></dl>
+
+<dl><dt><a name="SimpleDao-count"><strong>count</strong></a>(self, exampleObject)</dt></dl>
+
+<dl><dt><a name="SimpleDao-delete"><strong>delete</strong></a>(self, exampleObject)</dt></dl>
+
+<dl><dt><a name="SimpleDao-deleteAll"><strong>deleteAll</strong></a>(self, clazz)</dt></dl>
+
+<dl><dt><a name="SimpleDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt></dl>
+
+<dl><dt><a name="SimpleDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt></dl>
+
+<dl><dt><a name="SimpleDao-save"><strong>save</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="SimpleDao-update"><strong>update</strong></a>(self, anObject, ignoreNone<font color="#909090">=True</font>)</dt></dl>
+
+<hr>
+Methods inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>
+<dl><dt><a name="SimpleDao-commit"><strong>commit</strong></a>(self)</dt><dd><tt>Commits&nbsp;current&nbsp;transaction&nbsp;(if&nbsp;choosen&nbsp;database&nbsp;backend<br>
+supports&nbsp;it).&nbsp;For&nbsp;InMemoryDao&nbsp;this&nbsp;method&nbsp;does&nbsp;nothing.</tt></dd></dl>
+
+<dl><dt><a name="SimpleDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;returned<br>
+by&nbsp;sqlQuery.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries&nbsp;all<br>
+records&nbsp;are&nbsp;returned.<br>
+&nbsp;<br>
+Attribute&nbsp;sqlQuery&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
+argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
+&nbsp;<br>
+pre:&nbsp;sqlQuery&nbsp;!=&nbsp;None<br>
+pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="SimpleDao-listWhere"><strong>listWhere</strong></a>(self, clazz, whereClause, argList<font color="#909090">=()</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;filtered<br>
+by&nbsp;SQL&nbsp;whereClause.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries<br>
+all&nbsp;records&nbsp;are&nbsp;returned.<br>
+&nbsp;<br>
+Attribute&nbsp;sqlWhere&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
+argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
+&nbsp;<br>
+pre:&nbsp;whereClause2&nbsp;!=&nbsp;None<br>
+pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="SimpleDao-load2"><strong>load2</strong></a>(self, exampleObject)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database&nbsp;based&nbsp;on&nbsp;passed&nbsp;criteria.<br>
+&nbsp;<br>
+An&nbsp;execption&nbsp;is&nbsp;raised&nbsp;if&nbsp;no&nbsp;object&nbsp;(MissingObjectError)<br>
+or&nbsp;more&nbsp;than&nbsp;one&nbsp;object&nbsp;(NotUniqueObject)&nbsp;matches.</tt></dd></dl>
+
+<dl><dt><a name="SimpleDao-rollback"><strong>rollback</strong></a>(self)</dt><dd><tt>Rollbacks&nbsp;current&nbsp;transaction&nbsp;(if&nbsp;choosen&nbsp;database&nbsp;backend<br>
+supports&nbsp;it).&nbsp;For&nbsp;InMemoryDao&nbsp;this&nbsp;method&nbsp;does&nbsp;nothing.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>
+<dl><dt><strong>MissingObjectError</strong> = &lt;class pydao.AbstractDao.MissingObjectError&gt;</dl>
+
+<dl><dt><strong>NotUniqueObject</strong> = &lt;class pydao.AbstractDao.NotUniqueObject&gt;</dl>
+
+<dl><dt><strong>WrongArgumentsException</strong> = &lt;class pydao.AbstractDao.WrongArgumentsException&gt;</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

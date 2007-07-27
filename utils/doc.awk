@@ -150,9 +150,6 @@ $1 == "INCLUDE" {
 		else if($0 ~ "END " sName) break
 		else if(bPrint) {
 			sub(skipTabs, "")
-			if(length($0) > 60)
-				print sFile ":" n ": >60"\
-					> "/dev/stderr"
 			gsub(/\t/, "   ")
 			gsub(/\\&/, /\\&amp;/)
 			gsub(/ /, "\\&nbsp;")

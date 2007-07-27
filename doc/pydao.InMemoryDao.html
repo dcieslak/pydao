@@ -18,10 +18,8 @@
 <font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.AbstractDao.html">pydao.AbstractDao</a><br>
-</td><td width="25%" valign=top><a href="pydao.Condition.html">pydao.Condition</a><br>
-</td><td width="25%" valign=top><a href="copy.html">copy</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pydao.SimpleDao.html">pydao.SimpleDao</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -29,7 +27,7 @@
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>
+<dt><font face="helvetica, arial"><a href="pydao.SimpleDao.html#SimpleDao">pydao.SimpleDao.SimpleDao</a>(<a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>)
 </font></dt><dd>
 <dl>
 <dt><font face="helvetica, arial"><a href="pydao.InMemoryDao.html#InMemoryDao">InMemoryDao</a>
@@ -40,21 +38,24 @@
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="InMemoryDao">class <strong>InMemoryDao</strong></a>(<a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="InMemoryDao">class <strong>InMemoryDao</strong></a>(<a href="pydao.SimpleDao.html#SimpleDao">pydao.SimpleDao.SimpleDao</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>DAO&nbsp;implemented&nbsp;in&nbsp;memory.<br>
 &nbsp;<br>
-To&nbsp;make&nbsp;this&nbsp;instance&nbsp;persistent&nbsp;use&nbsp;pickle&nbsp;module.<br>
-&nbsp;<br>
-Class&nbsp;attributes:<br>
-&nbsp;<br>
-&nbsp;-&nbsp;INMEMORY_LOAD:&nbsp;procedure&nbsp;wth&nbsp;args&nbsp;dao,&nbsp;object&nbsp;to&nbsp;update<br>
-&nbsp;&nbsp;&nbsp;object&nbsp;before&nbsp;return&nbsp;from&nbsp;<a href="#InMemoryDao-list">list</a>()&nbsp;and&nbsp;<a href="#InMemoryDao-load">load</a>()&nbsp;methods<br>&nbsp;</tt></td></tr>
+To&nbsp;make&nbsp;this&nbsp;instance&nbsp;persistent&nbsp;use&nbsp;pickle&nbsp;module.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
-<td width="100%">Methods defined here:<br>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="pydao.InMemoryDao.html#InMemoryDao">InMemoryDao</a></dd>
+<dd><a href="pydao.SimpleDao.html#SimpleDao">pydao.SimpleDao.SimpleDao</a></dd>
+<dd><a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
 <dl><dt><a name="InMemoryDao-__init__"><strong>__init__</strong></a>(self, logStream<font color="#909090">=None</font>)</dt><dd><tt>logStream:&nbsp;output&nbsp;of&nbsp;logging&nbsp;messages.</tt></dd></dl>
 
+<hr>
+Methods inherited from <a href="pydao.SimpleDao.html#SimpleDao">pydao.SimpleDao.SimpleDao</a>:<br>
 <dl><dt><a name="InMemoryDao-count"><strong>count</strong></a>(self, exampleObject)</dt></dl>
 
 <dl><dt><a name="InMemoryDao-delete"><strong>delete</strong></a>(self, exampleObject)</dt></dl>

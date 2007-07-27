@@ -4,13 +4,7 @@ http://aplikacja.info
 """
 
 import unittest
-import LikeCondition
-import IsNullCondition
-import NotNullCondition
 import InRangeCondition
-import InSequenceCondition
-import ArbitraryCondition
-import OrCondition
 
 def suite(dao):
 
@@ -61,12 +55,6 @@ class GuideTest(unittest.TestCase):
 		# END test_simple_delete
 
 
-def _userLoad(dao, user):
-
-	if user.companyID:
-		c = dao.load(Company, user.companyID)
-		user._companyName = c.name
-
 # BEGIN TEST_USER
 class TEST_USER:
 
@@ -77,36 +65,4 @@ class TEST_USER:
 		self.password = None
 		self.companyID = None
 # END TEST_USER
-
-class User:
-
-	DAO_ID = "id"
-	SQL_SEQUENCE = "TEST_USER_ID"
-	SQL_TABLE = "TEST_USER"
-	SQL_FROM = "LEFT JOIN TEST_COMPANY TC"\
-		" ON T.COMPANYID = TC.ID"
-	SQL_SELECT = "TC.NAME AS _companyName"
-	INMEMORY_LOAD = _userLoad
-
-	def __init__(self):
-		self.id = None
-		self.login = None
-		self.salary = None
-		self.password = None
-		self.companyID = None
-		# virtual attribute: not present in database
-		self._companyName = None
-		self._anotherAttribute = None
-
-class Company:
-
-	DAO_ID = "id"
-	SQL_SEQUENCE = "TEST_COMPANY_ID"
-	SQL_TABLE = "TEST_COMPANY"
-
-	def __init__(self):
-
-		self.id = None
-		self.name = None
-		self._anotherAttribute = None
 

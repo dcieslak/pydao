@@ -41,6 +41,7 @@ gendoc: doc/AbstractDaoTest.txt doc/SqlDaoTest.txt doc/pydao-userguide.html
 		pydao.NotNullCondition \
 		pydao.ArbitraryCondition \
 		pydao.LikeCondition \
+		pydao.SimpleDao \
 		pydao.InMemoryDao
 	mv pydao*html doc
 
