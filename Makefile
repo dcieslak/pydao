@@ -1,5 +1,5 @@
 NAME=pydao
-VER=0.9.3
+VER=0.9.4
 
 all: dynamic-check doc/pydao-userguide.html
 
@@ -87,9 +87,7 @@ deploy: coverage gendoc
 		--dereference\
 		--exclude-from=$(NAME)-$(VER)/.deploy-exclude
 	cd /tmp; rm -f  $(NAME)-$(VER).zip;\
-	zip -r $(NAME)-$(VER).zip $(NAME)-$(VER)\
-		-x@$(NAME)-$(VER)/.deploy-exclude
-	pftp -i < upload.ftp
+	cd -; pftp -i < upload.ftp
 
 f:
 	firefox doc/index.html

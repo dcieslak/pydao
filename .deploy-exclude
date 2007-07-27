@@ -8,4 +8,7 @@
 *.vim
 *.vimrc
 *CVS*
-
+*.git
+*~
+upload.ftp
+test
