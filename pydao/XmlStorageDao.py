@@ -75,16 +75,23 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 		self.classNameToList[className] = lst
 
 		f = file(fileNameBackup, "wt")
-		f.write("<xml>")
+		f.write("<xml>\n")
 		for ob in lst:
-			f.write("<object ")
+			f.write("  <object>")
 			for name, value in ob.__dict__.items():
 				if value != None:
-					f.write(name + "=\""\
+					if isinstance(value, int):
+						typeName = "int"
+					elif isinstance(value, float):
+						typeName = "float"
+					else:
+						typeName = "str"
+					f.write("    <attribute name=\"" \
+						+ name + "\" value=\""\
 						+ xml.sax.saxutils.escape(str(value))\
-						+ "\" ")
-			f.write("/>")
-		f.write("</xml>")
+						+ "\" type=\"" + typeName + "\"/>\n")
+			f.write("</object>\n")
+		f.write("</xml>\n")
 		f.close()
 
 		os.rename(fileNameBackup, fileName)
@@ -95,6 +102,7 @@ class _DataHandler(xml.sax.ContentHandler):
 
 		self.clazz = clazz
 		self.objectList = []
+		self.attributes = {}
 		xml.sax.handler.ContentHandler.__init__(self)
 
 	# SAX hooks
@@ -111,12 +119,32 @@ class _DataHandler(xml.sax.ContentHandler):
 	def startElementISO2(self, name, attrs):
 
 		if name == "object":
+			self.attributes = {}
+
+		elif name == "attribute":
+			name = attrs["name"]
+			value = attrs["value"]
+			typeName = attrs["type"]
+
+			if typeName == "int":
+				self.attributes[name] = int(value)
+			elif typeName == "float":
+				self.attributes[name] = float(value)
+			elif typeName == "str":
+				self.attributes[name] = value
+			else:
+				raise Exception, "unknown type: " + `type`
+	
+
+	def endElement(self, name):
+
+		if name == "object":
+
 			obj = new.instance(self.clazz)
 			obj.__init__()
 			for name in obj.__dict__.keys():
-				if attrs.has_key(name):
-					obj.__dict__[name] = attrs[name]
-
+				if self.attributes.has_key(name):
+					obj.__dict__[name] = self.attributes[name]
 			self.objectList.append(obj)
 
 

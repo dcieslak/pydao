@@ -38,6 +38,10 @@ class XmlStorageDaoTest(unittest.TestCase):
 		lista = dao2.list(u2)
 		self.assertEquals(len(lista), 1,
 			"one object read from XML")
+		self.assertEquals(lista[0].name, "Jack",
+			"object attribute (string)")
+		self.assertEquals(lista[0].age, 32,
+			"object attribute (int)")
 
 class User:
 
