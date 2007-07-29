@@ -28,6 +28,7 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 
 		SimpleDao.SimpleDao.__init__(self, logStream)
 		self.directory = directory
+		self.encoding = encoding
 		self.classNameToList = {}
 		self.dirtyClasses = {}
 
@@ -87,6 +88,9 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 		self.classNameToList[className] = lst
 
 		f = file(fileNameBackup, "wt")
+		f.write(
+		'<?xml version="1.0" encoding="%s" standalone="yes"?>'\
+			% self.encoding)
 		f.write("<xml>\n")
 		for ob in lst:
 			f.write("  <object>\n")
