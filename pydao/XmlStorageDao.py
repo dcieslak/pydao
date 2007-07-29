@@ -29,6 +29,7 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 		SimpleDao.SimpleDao.__init__(self, logStream)
 		self.directory = directory
 		self.classNameToList = {}
+		self.dirtyClasses = {}
 
 	def _newId(self, className):
 
@@ -55,7 +56,6 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 			return self.classNameToList[className]
 
 		fileName = os.path.join(self.directory, className + ".xml")
-		self.classNameToList = []
 		if os.path.exists(fileName):
 			f = file(fileName)
 			dh = _DataHandler(clazz)
@@ -65,11 +65,23 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 		else:
 			objectList = []
 
+		self.classNameToList[className] = objectList
 		return objectList
 
 	def _replaceWholeList(self, clazz, lst):
 
 		className = clazz.__name__
+		self.classNameToList[className] = lst
+		self.dirtyClasses[className] = 1
+	
+	def sync(self):
+
+		for className in self.dirtyClasses.keys():
+			self._saveList(
+				className, self.classNameToList[className])
+
+	def _saveList(self, className, lst):
+
 		fileName = os.path.join(self.directory, className + ".xml")
 		fileNameBackup = fileName + ".bak"
 		self.classNameToList[className] = lst
@@ -77,9 +89,9 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 		f = file(fileNameBackup, "wt")
 		f.write("<xml>\n")
 		for ob in lst:
-			f.write("  <object>")
+			f.write("  <object>\n")
 			for name, value in ob.__dict__.items():
-				if value != None:
+				if name[0] != "_" and value != None:
 					if isinstance(value, int):
 						typeName = "int"
 					elif isinstance(value, float):
@@ -90,7 +102,7 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 						+ name + "\" value=\""\
 						+ xml.sax.saxutils.escape(str(value))\
 						+ "\" type=\"" + typeName + "\"/>\n")
-			f.write("</object>\n")
+			f.write("  </object>\n")
 		f.write("</xml>\n")
 		f.close()
 
