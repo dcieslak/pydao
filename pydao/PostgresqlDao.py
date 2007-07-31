@@ -59,3 +59,20 @@ class PostgresqlDao(SqlDao.SqlDao):
 
 		return clazz.__dict__["SQL_SEQUENCE"]
 
+	def _lockTable(self, clazz):
+
+		c = self._conn.cursor()
+		tableName = self._getTableName(clazz)
+		sqlQuery = "LOCK TABLE %s" % tableName
+		self._logSql(sqlQuery)
+		c.execute(sqlQuery)
+		c.close()
+
+	def _unlockTable(self, anObject):
+
+		c = self._conn.cursor()
+		sqlQuery = "COMMIT"
+		self._logSql(sqlQuery)
+		c.execute(sqlQuery)
+		c.close()
+

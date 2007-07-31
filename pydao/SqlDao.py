@@ -7,6 +7,7 @@ import AbstractDao
 import Condition
 import string
 import new
+import copy
 import datetime
 
 class SqlDao(AbstractDao.AbstractDao):

@@ -456,6 +456,37 @@ class AbstractDaoTest(unittest.TestCase):
 		self.assertEquals(self.dao.count(u), 2,
 			"two objects matches")
 
+	def test_generateSequence(self):
+
+		self.dao.deleteAll(NumberGenerator)
+
+		ng = NumberGenerator()
+		ng.year = 2007
+		ng.departament = "EX"
+
+		n = self.dao.generateSequence(ng, "number")
+		self.assertEquals(n, 1,
+			"first sequence number: %s" % n)
+		n = self.dao.generateSequence(ng, "number")
+		self.assertEquals(n, 2,
+			"second sequence number: %s" % n)
+
+		ng.year = 2008
+		n = self.dao.generateSequence(ng, "number")
+		self.assertEquals(n, 1,
+			"first sequence number in a new year: %s" % n)
+
+class NumberGenerator:
+
+	SQL_SEQUENCE = "TEST_NUMBER_GENERATOR"
+
+	def __init__(self):
+
+		self.id = None
+		self.year = None
+		self.departament = None
+		self.number = None
+
 def _userLoad(dao, user):
 
 	if user.companyID:

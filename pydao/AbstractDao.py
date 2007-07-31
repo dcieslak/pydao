@@ -3,6 +3,8 @@ Copyright: Dariusz Cieslak, Aplikacja.info
 http://aplikacja.info
 """
 
+import copy
+
 class AbstractDao:
 
 	"""
@@ -164,6 +166,34 @@ class AbstractDao:
 		supports it). For InMemoryDao this method does nothing.
 		"""
 
+	def generateSequence(self, objectExample, numberPropertyName):
+
+		"""
+		Generates sequence based on filled object and use
+		numberAttributeName.
+
+		pre: objectExample.__dict__.has_key(numberPropertyName)
+		"""
+
+		clazz = objectExample.__class__
+		self._lockTable(clazz)
+
+		objectList = self.list(objectExample)
+		if objectList:
+			obj = objectList[0]
+			n = obj.__dict__[numberPropertyName]
+			n += 1
+			obj.__dict__[numberPropertyName] = n
+			self.update(obj)
+			self._unlockTable(clazz)
+			return n
+		else:
+			obj = copy.copy(objectExample)
+			obj.__dict__[numberPropertyName] = 1
+			self.save(obj)
+			self._unlockTable(clazz)
+			return 1
+
 	def _log(self, text, obj):
 
 		if self._logStream:
@@ -199,5 +229,13 @@ class AbstractDao:
 					s += " "
 		s += "}"
 		return s
+
+	def _lockTable(self, clazz):
+
+		pass
+
+	def _unlockTable(self, clazz):
+
+		pass
 
 

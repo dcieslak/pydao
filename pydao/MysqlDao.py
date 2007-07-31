@@ -53,4 +53,22 @@ class MysqlDao(SqlDao.SqlDao):
 		if not anObject.__dict__[idName]:
 			anObject.__dict__[idName] = self._conn.insert_id()
 
+	def _lockTable(self, clazz):
+
+		c = self._conn.cursor()
+		tableName = self._getTableName(clazz)
+		sqlQuery = "LOCK TABLE %s WRITE, %s AS T WRITE" % (
+			tableName, tableName)
+		self._logSql(sqlQuery)
+		c.execute(sqlQuery)
+		c.close()
+
+	def _unlockTable(self, anObject):
+
+		c = self._conn.cursor()
+		sqlQuery = "UNLOCK TABLES"
+		self._logSql(sqlQuery)
+		c.execute(sqlQuery)
+		c.close()
+
 
