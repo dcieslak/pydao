@@ -1,5 +1,11 @@
+PyDAO 0.9.5 (released ...)
+
+
+
 PyDAO 0.9.4 (released 2007-07-27)
 
+ - XmlStorageDao efficiency improved (memory cache)
+ - generateSequence() added (parametrized sequences)
 
 PyDAO 0.9.3 (released 2007-07-27)
 

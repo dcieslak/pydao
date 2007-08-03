@@ -476,6 +476,41 @@ class AbstractDaoTest(unittest.TestCase):
 		self.assertEquals(n, 1,
 			"first sequence number in a new year: %s" % n)
 
+	def test_listWhere(self):
+
+		"""
+		listWhere(): load array of objects from database based on
+		SQL where clause or passed function (for SimpleDao).
+		"""
+
+		uList = self.dao.listWhere("""
+		T.login like '%%1'
+		""", User,
+			filterFunctioin = lambda x, argList: x.login.endswith("1"))
+		self.assertEquals(len(uList), 1,
+			"one object")
+		self.assertEquals(uList[0].id, self.u1.id,
+			"u1 selected")
+
+	def test_listWhere_arguments(self):
+
+		"""
+		listWhere(): load array of objects from database based on
+		SQL where clause with arguments.
+		"""
+
+		uList = self.dao.listWhere("""
+		T.salary = %s
+		""", User, [7000],
+			filterFunctioin =\
+				lambda obj, argList: obj.salary == argList[0])
+		self.assertEquals(len(uList), 1,
+			"one object: %s" % len(uList))
+		self.assertEquals(uList[0].id, self.u2.id,
+			"u2 selected")
+
+
+
 class NumberGenerator:
 
 	SQL_SEQUENCE = "TEST_NUMBER_GENERATOR"

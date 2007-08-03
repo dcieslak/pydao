@@ -7,7 +7,6 @@ import AbstractDao
 import Condition
 import string
 import new
-import copy
 import datetime
 
 class SqlDao(AbstractDao.AbstractDao):
@@ -53,7 +52,8 @@ class SqlDao(AbstractDao.AbstractDao):
 		self._updateSqlStream = updateSqlStream
 		self._encoding = encoding
 
-	def listSQL(self, sqlQuery, clazz, argList = ()):
+	def listSQL(self, sqlQuery, clazz, argList = (),
+	filterModifyFunction = None):
 
 		self._logList("listSQL()", argList)
 
@@ -74,7 +74,8 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		return result
 
-	def listWhere(self, whereClause, clazz, argList = ()):
+	def listWhere(self, whereClause, clazz, argList = (),
+	filterFunctioin = None):
 
 		self._logClass("listWhere()", clazz, argList)
 		tableName = self._getTableName(clazz)

@@ -43,6 +43,16 @@ class SimpleDao(AbstractDao.AbstractDao):
 
 		return result[firstResult:firstResult+maxResults]
 
+	def listWhere(self, whereClause, clazz, argList = (),
+	filterFunctioin = None):
+
+		objectList = self._getWholeList(clazz)
+		result = []
+		for obj in objectList:
+			if filterFunctioin(obj, argList):
+				result.append(obj)
+		return result
+
 	def count(self, exampleObject):
 
 		self._log("count()", exampleObject)

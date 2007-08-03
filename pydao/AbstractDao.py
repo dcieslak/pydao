@@ -42,7 +42,8 @@ class AbstractDao:
 		"""
 		return []
 
-	def listSQL(self, sqlQuery, clazz, argList = ()):
+	def listSQL(self, sqlQuery, clazz, argList = (),
+	filterModifyFunction = None):
 
 		"""
 		Retrieves list of objects of type clazz from records returned
@@ -52,12 +53,17 @@ class AbstractDao:
 		Attribute sqlQuery can have %s marks to place arguments from
 		argList (similar to MySQLdb).
 
+		filterModifyFunction argument is used by SimpleDao
+		implementations. It's function: fun(dao, object, argList) ->
+		boolean. This function can modify object.
+
 		pre: sqlQuery != None
 		pre: clazz != None
 		"""
 		return []
 
-	def listWhere(self, clazz, whereClause, argList = ()):
+	def listWhere(self, clazz, whereClause, argList = (),
+	filterFunctioin = None):
 
 		"""
 		Retrieves list of objects of type clazz from records filtered
@@ -67,7 +73,10 @@ class AbstractDao:
 		Attribute sqlWhere can have %s marks to place arguments from
 		argList (similar to MySQLdb).
 
-		pre: whereClause2 != None
+		filterFunctioin argument is used by SimpleDao implementations.
+		It's function: fun(object, argList) -> boolean.
+
+		pre: whereClause != None
 		pre: clazz != None
 		"""
 		return []

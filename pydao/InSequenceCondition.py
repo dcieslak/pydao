@@ -8,9 +8,12 @@ import Condition
 
 class InSequenceCondition(Condition.Condition):
 
-	def __init__(self):
+	def __init__(self, values = None):
 
-		self.values = []
+		if not values:
+			self.values = []
+		else:
+			self.values = values
 
 	def addValue(self, value):
 

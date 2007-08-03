@@ -92,36 +92,6 @@ class SqlDaoTest(unittest.TestCase):
 		self.assertEquals(len(uList), 1,
 			"filtered by login")
 
-	def test_listWhere(self):
-
-		"""
-		listWhere(): load array of objects from database based on
-		SQL where clause.
-		"""
-
-		uList = self.dao.listWhere("""
-		T.login like '%%1'
-		""", User)
-		self.assertEquals(len(uList), 1,
-			"one object")
-		self.assertEquals(uList[0].id, self.u1.id,
-			"u1 selected")
-
-	def test_listWhere_arguments(self):
-
-		"""
-		listWhere(): load array of objects from database based on
-		SQL where clause.
-		"""
-
-		uList = self.dao.listWhere("""
-		T.login = %s
-		""", User, ["u1"])
-		self.assertEquals(len(uList), 1,
-			"one object")
-		self.assertEquals(uList[0].id, self.u1.id,
-			"u1 selected")
-
 	def test_listWhere_group_by(self):
 
 		"""
