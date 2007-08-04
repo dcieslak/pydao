@@ -53,6 +53,16 @@ class SimpleDao(AbstractDao.AbstractDao):
 				result.append(obj)
 		return result
 
+	def listSQL(self, sqlQuery, clazz, argList = (),
+	filterModifyFunction = None):
+
+		objectList = self._getWholeList(clazz)
+		result = []
+		for obj in objectList:
+			if filterModifyFunction(self, obj, argList):
+				result.append(obj)
+		return result
+
 	def count(self, exampleObject):
 
 		self._log("count()", exampleObject)

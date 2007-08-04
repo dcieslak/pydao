@@ -47,8 +47,8 @@ class AbstractDao:
 
 		"""
 		Retrieves list of objects of type clazz from records returned
-		by sqlQuery. If database doesn't support SQL queries all
-		records are returned.
+		by sqlQuery. If database doesn't support SQL
+		filterModifyFunction is used to alter result.
 
 		Attribute sqlQuery can have %s marks to place arguments from
 		argList (similar to MySQLdb).
@@ -68,7 +68,7 @@ class AbstractDao:
 		"""
 		Retrieves list of objects of type clazz from records filtered
 		by SQL whereClause. If database doesn't support SQL queries
-		all records are returned.
+		filterFunctioin is used to alter result.
 
 		Attribute sqlWhere can have %s marks to place arguments from
 		argList (similar to MySQLdb).

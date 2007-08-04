@@ -77,21 +77,6 @@ class SqlDaoTest(unittest.TestCase):
 		self.assertEquals(len(uList), 2,
 			"all objects")
 
-	def test_listSQL_arguments(self):
-
-		"""
-		listSQL(): load array of objects from database based on
-		SQL query with arguments.
-		"""
-
-		uList = self.dao.listSQL("""
-		SELECT *
-		FROM TEST_USER
-		WHERE login = %s
-		""", User, ["u1"])
-		self.assertEquals(len(uList), 1,
-			"filtered by login")
-
 	def test_listWhere_group_by(self):
 
 		"""
