@@ -88,9 +88,9 @@ Methods inherited from <a href="pydao.SqlDao.html#SqlDao">pydao.SqlDao.SqlDao</a
 
 <dl><dt><a name="MysqlDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt></dl>
 
-<dl><dt><a name="MysqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>, filterModifyFunction<font color="#909090">=None</font>)</dt></dl>
 
-<dl><dt><a name="MysqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=()</font>)</dt></dl>
+<dl><dt><a name="MysqlDao-listWhere"><strong>listWhere</strong></a>(self, whereClause, clazz, argList<font color="#909090">=()</font>, filterFunctioin<font color="#909090">=None</font>)</dt></dl>
 
 <dl><dt><a name="MysqlDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt></dl>
 
@@ -102,6 +102,11 @@ Methods inherited from <a href="pydao.SqlDao.html#SqlDao">pydao.SqlDao.SqlDao</a
 
 <hr>
 Methods inherited from <a href="pydao.AbstractDao.html#AbstractDao">pydao.AbstractDao.AbstractDao</a>:<br>
+<dl><dt><a name="MysqlDao-generateSequence"><strong>generateSequence</strong></a>(self, objectExample, numberPropertyName)</dt><dd><tt>Generates&nbsp;sequence&nbsp;based&nbsp;on&nbsp;filled&nbsp;object&nbsp;and&nbsp;use<br>
+numberAttributeName.<br>
+&nbsp;<br>
+pre:&nbsp;objectExample.__dict__.has_key(numberPropertyName)</tt></dd></dl>
+
 <dl><dt><a name="MysqlDao-load2"><strong>load2</strong></a>(self, exampleObject)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database&nbsp;based&nbsp;on&nbsp;passed&nbsp;criteria.<br>
 &nbsp;<br>
 An&nbsp;execption&nbsp;is&nbsp;raised&nbsp;if&nbsp;no&nbsp;object&nbsp;(MissingObjectError)<br>

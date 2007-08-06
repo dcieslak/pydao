@@ -13,6 +13,14 @@
 <a href="http://aplikacja.info">http://aplikacja.info</a></tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
@@ -60,6 +68,11 @@ pre:&nbsp;hasattr(exampleObject,&nbsp;"__class__")</tt></dd></dl>
 &nbsp;<br>
 pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
 
+<dl><dt><a name="AbstractDao-generateSequence"><strong>generateSequence</strong></a>(self, objectExample, numberPropertyName)</dt><dd><tt>Generates&nbsp;sequence&nbsp;based&nbsp;on&nbsp;filled&nbsp;object&nbsp;and&nbsp;use<br>
+numberAttributeName.<br>
+&nbsp;<br>
+pre:&nbsp;objectExample.__dict__.has_key(numberPropertyName)</tt></dd></dl>
+
 <dl><dt><a name="AbstractDao-list"><strong>list</strong></a>(self, exampleObject, firstResult<font color="#909090">=0</font>, maxResults<font color="#909090">=100000</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;the&nbsp;same&nbsp;type&nbsp;as&nbsp;exampleObject<br>
 filtered&nbsp;by&nbsp;fields&nbsp;that&nbsp;are&nbsp;!=&nbsp;None.&nbsp;Arguments&nbsp;firstResult&nbsp;and<br>
 maxResults&nbsp;allows&nbsp;you&nbsp;to&nbsp;do&nbsp;paging.<br>
@@ -67,24 +80,31 @@ maxResults&nbsp;allows&nbsp;you&nbsp;to&nbsp;do&nbsp;paging.<br>
 pre:&nbsp;exampleObject&nbsp;!=&nbsp;None<br>
 pre:&nbsp;hasattr(exampleObject,&nbsp;"__class__")</tt></dd></dl>
 
-<dl><dt><a name="AbstractDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;returned<br>
-by&nbsp;sqlQuery.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries&nbsp;all<br>
-records&nbsp;are&nbsp;returned.<br>
+<dl><dt><a name="AbstractDao-listSQL"><strong>listSQL</strong></a>(self, sqlQuery, clazz, argList<font color="#909090">=()</font>, filterModifyFunction<font color="#909090">=None</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;returned<br>
+by&nbsp;sqlQuery.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL<br>
+filterModifyFunction&nbsp;is&nbsp;used&nbsp;to&nbsp;alter&nbsp;result.<br>
 &nbsp;<br>
 Attribute&nbsp;sqlQuery&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
 argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
 &nbsp;<br>
+filterModifyFunction&nbsp;argument&nbsp;is&nbsp;used&nbsp;by&nbsp;SimpleDao<br>
+implementations.&nbsp;It's&nbsp;function:&nbsp;fun(dao,&nbsp;object,&nbsp;argList)&nbsp;-&gt;<br>
+boolean.&nbsp;This&nbsp;function&nbsp;can&nbsp;modify&nbsp;object.<br>
+&nbsp;<br>
 pre:&nbsp;sqlQuery&nbsp;!=&nbsp;None<br>
 pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
 
-<dl><dt><a name="AbstractDao-listWhere"><strong>listWhere</strong></a>(self, clazz, whereClause, argList<font color="#909090">=()</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;filtered<br>
+<dl><dt><a name="AbstractDao-listWhere"><strong>listWhere</strong></a>(self, clazz, whereClause, argList<font color="#909090">=()</font>, filterFunctioin<font color="#909090">=None</font>)</dt><dd><tt>Retrieves&nbsp;list&nbsp;of&nbsp;objects&nbsp;of&nbsp;type&nbsp;clazz&nbsp;from&nbsp;records&nbsp;filtered<br>
 by&nbsp;SQL&nbsp;whereClause.&nbsp;If&nbsp;database&nbsp;doesn't&nbsp;support&nbsp;SQL&nbsp;queries<br>
-all&nbsp;records&nbsp;are&nbsp;returned.<br>
+filterFunctioin&nbsp;is&nbsp;used&nbsp;to&nbsp;alter&nbsp;result.<br>
 &nbsp;<br>
 Attribute&nbsp;sqlWhere&nbsp;can&nbsp;have&nbsp;%s&nbsp;marks&nbsp;to&nbsp;place&nbsp;arguments&nbsp;from<br>
 argList&nbsp;(similar&nbsp;to&nbsp;MySQLdb).<br>
 &nbsp;<br>
-pre:&nbsp;whereClause2&nbsp;!=&nbsp;None<br>
+filterFunctioin&nbsp;argument&nbsp;is&nbsp;used&nbsp;by&nbsp;SimpleDao&nbsp;implementations.<br>
+It's&nbsp;function:&nbsp;fun(object,&nbsp;argList)&nbsp;-&gt;&nbsp;boolean.<br>
+&nbsp;<br>
+pre:&nbsp;whereClause&nbsp;!=&nbsp;None<br>
 pre:&nbsp;clazz&nbsp;!=&nbsp;None</tt></dd></dl>
 
 <dl><dt><a name="AbstractDao-load"><strong>load</strong></a>(self, clazz, objectID)</dt><dd><tt>Fetches&nbsp;one&nbsp;object&nbsp;from&nbsp;database.&nbsp;If&nbsp;there's&nbsp;no&nbsp;object&nbsp;raises<br>
