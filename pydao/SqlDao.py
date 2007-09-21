@@ -441,7 +441,8 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		names = []
 		for name in obj.__dict__.keys():
-			if name[0] != "_":
+			if name[0] != "_" \
+			and not name.startswith("v_"):
 				names.append("T." + name)
 
 		sql = "SELECT %s" % string.join(names, ", ")
