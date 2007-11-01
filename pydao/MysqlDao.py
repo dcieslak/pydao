@@ -49,8 +49,8 @@ class MysqlDao(SqlDao.SqlDao):
 
 	def _afterSaveHook(self, anObject):
 
-		idName = self._getIdName(anObject.__class__)
-		if not anObject.__dict__[idName]:
+		idName = self._getIdName(anObject)
+		if idName and not anObject.__dict__[idName]:
 			anObject.__dict__[idName] = self._conn.insert_id()
 
 	def _lockTable(self, clazz):

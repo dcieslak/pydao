@@ -204,7 +204,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		self._log("count()", exampleObject)
 		clazz = exampleObject.__class__
 		tableName = self._getTableName(clazz)
-		idName = self._getIdName(clazz)
+		idName = self._getIdName(exampleObject)
 
 		valueList = []
 		nameList = []
@@ -293,7 +293,10 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		self._logClass("load()", clazz, objectID)
 		tableName = self._getTableName(clazz)
-		objectIDName = self._getIdName(clazz)
+
+		obj = new.instance(clazz)
+		obj.__init__()
+		objectIDName = self._getIdName(obj)
 
 		obj = new.instance(clazz)
 		obj.__init__()
@@ -332,7 +335,7 @@ class SqlDao(AbstractDao.AbstractDao):
 
 		self._log("update()", anObject)
 		tableName = self._getTableName(anObject.__class__)
-		idName = self._getIdName(anObject.__class__)
+		idName = self._getIdName(anObject)
 		assert anObject.__dict__[idName],\
 			"object must have id field set before update(): "\
 				+ anObject
@@ -367,7 +370,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		self._log("save()", anObject)
 		clazz = anObject.__class__
 		tableName = self._getTableName(clazz)
-		idName = self._getIdName(clazz)
+		idName = self._getIdName(anObject)
 
 		self._beforeSaveHook(anObject)
 
@@ -413,13 +416,6 @@ class SqlDao(AbstractDao.AbstractDao):
 			return clazz.__dict__["SQL_TABLE"]
 		else:
 			return clazz.__name__
-
-	def _getIdName(self, clazz):
-
-		if clazz.__dict__.has_key("DAO_ID"):
-			return clazz.__dict__["DAO_ID"]
-		else:
-			return "id"
 
 	def _getTableFrom(self, clazz):
 

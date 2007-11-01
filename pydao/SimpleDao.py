@@ -6,6 +6,7 @@ http://aplikacja.info
 import copy
 import AbstractDao
 import Condition
+import new
 
 class SimpleDao(AbstractDao.AbstractDao):
 
@@ -109,8 +110,8 @@ class SimpleDao(AbstractDao.AbstractDao):
 		self._log("save()", anObject)
 
 		assert anObject
-		idName = self._getIdName(anObject.__class__)
-		if not anObject.__dict__[idName]:
+		idName = self._getIdName(anObject)
+		if idName and not anObject.__dict__[idName]:
 			anObject.__dict__[idName] = self._newId(
 				anObject.__class__.__name__)
 		clazz = anObject.__class__
@@ -124,7 +125,11 @@ class SimpleDao(AbstractDao.AbstractDao):
 		self._logClass("load()", clazz, objectID)
 
 		hint = self._getLoadHint(clazz)
-		idName = self._getIdName(clazz)
+
+		obj = new.instance(clazz)
+		obj.__init__()
+		idName = self._getIdName(obj)
+
 		objectList = self._getWholeList(clazz)
 		for t in objectList:
 			if str(t.__dict__[idName]) == str(objectID):
@@ -138,13 +143,13 @@ class SimpleDao(AbstractDao.AbstractDao):
 
 		self._log("update()", anObject)
 
-		idName = self._getIdName(anObject.__class__)
+		idName = self._getIdName(anObject)
 		assert anObject.__dict__[idName],\
 			"for update anObject id has to be set"
 
 		clazz = anObject.__class__
 		anObjectList = self._getWholeList(clazz)
-		idName = self._getIdName(anObject.__class__)
+		idName = self._getIdName(anObject)
 		for t in anObjectList:
 			if str(t.__dict__[idName]) == str(anObject.__dict__[idName]):
 				for name, value in anObject.__dict__.items():
@@ -200,12 +205,5 @@ class SimpleDao(AbstractDao.AbstractDao):
 			return clazz.__dict__["INMEMORY_LOAD"]
 		else:
 			return lambda x,y: None
-
-	def _getIdName(self, clazz):
-
-		if clazz.__dict__.has_key("DAO_ID"):
-			return clazz.__dict__["DAO_ID"]
-		else:
-			return "id"
 
 

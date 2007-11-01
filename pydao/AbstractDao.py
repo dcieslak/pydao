@@ -247,4 +247,14 @@ class AbstractDao:
 
 		pass
 
+	def _getIdName(self, anObject):
+
+		clazz = anObject.__class__
+		if clazz.__dict__.has_key("DAO_ID"):
+			return clazz.__dict__["DAO_ID"]
+		elif anObject.__dict__.has_key("id"):
+			return "id"
+		else:
+			return None
+
 

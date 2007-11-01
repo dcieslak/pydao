@@ -42,7 +42,7 @@ class PostgresqlDao(SqlDao.SqlDao):
 	def _beforeSaveHook(self, anObject):
 
 		clazz = anObject.__class__
-		idName = self._getIdName(clazz)
+		idName = self._getIdName(anObject)
 		if not anObject.__dict__[idName]:
 			c = self._conn.cursor()
 			c.execute("SELECT NEXTVAL('%s')"
