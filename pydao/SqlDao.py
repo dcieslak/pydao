@@ -379,6 +379,7 @@ class SqlDao(AbstractDao.AbstractDao):
 		percentList = []
 		for name, value in anObject.__dict__.items():
 			if name[0] != "_"\
+			and name.find("v_") < 0\
 			and (name != idName or value):
 				if (not ignoreNone) or value != None:
 					nameList.append(name)
