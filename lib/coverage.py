@@ -515,7 +515,7 @@ class coverage:
                         elif tree[j][0] == token.NAME:
                             if tree[j][1] == 'elif':
                                 # Find the line number of
-				# the first non-terminal
+                # the first non-terminal
                                 # after the keyword.
                                 t = tree[j+1]
                                 while t and token.ISNONTERMINAL(t[0]):
@@ -528,7 +528,7 @@ class coverage:
                         elif tree[j][0] == symbol.except_clause:
                             # "except" clauses look like:
                             # ('except_clause',
-			    # ('NAME', 'except', lineno), ...)
+                # ('NAME', 'except', lineno), ...)
                             if tree[j][1][0] == token.NAME:
                                 lineno_word = tree[j][1][2]
                                 break

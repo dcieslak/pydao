@@ -282,11 +282,11 @@ def checkmod(module, checklevel = CHECK_DEFAULT):
     """
     # ttw009 string module names...
     if isinstance(module, StringType) or isinstance(module, UnicodeType):
-	# ttw012 imports...
-	__import__(module)
-	module = sys.modules[module]
-	# ...ttw012
-    # ...ttw009
+        # ttw012 imports...
+        __import__(module)
+        module = sys.modules[module]
+        # ...ttw012
+        # ...ttw009
 
     # ttw008 partial contract enforcement...
     if checklevel == CHECK_DEFAULT:

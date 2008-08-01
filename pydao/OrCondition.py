@@ -8,38 +8,38 @@ import string
 
 class OrCondition(Condition.Condition):
 
-	def __init__(self):
+    def __init__(self):
 
-		self.conditions = []
+        self.conditions = []
 
-	def addCondition(self, condition):
+    def addCondition(self, condition):
 
-		self.conditions.append(condition)
+        self.conditions.append(condition)
 
-	def generateWhereSQL(self, columnName):
+    def generateWhereSQL(self, columnName):
 
-		arr = []
-		for cond in self.conditions:
-			arr.append(cond.generateWhereSQL(columnName))
+        arr = []
+        for cond in self.conditions:
+            arr.append(cond.generateWhereSQL(columnName))
 
-		return ("(" + string.join(arr, " OR ") + ")")
+        return ("(" + string.join(arr, " OR ") + ")")
 
-	def generateArgs(self):
+    def generateArgs(self):
 
-		arr = []
-		for cond in self.conditions:
-			arr += cond.generateArgs()
-		return arr
+        arr = []
+        for cond in self.conditions:
+            arr += cond.generateArgs()
+        return arr
 
-	def validateValue(self, value):
+    def validateValue(self, value):
 
-		for cond in self.conditions:
-			if cond.validateValue(value):
-				return True
-		return False
+        for cond in self.conditions:
+            if cond.validateValue(value):
+                return True
+        return False
 
-	def __repr__(self):
+    def __repr__(self):
 
-		return "OrCondition(%s)" % self.conditions
+        return "OrCondition(%s)" % self.conditions
 
 

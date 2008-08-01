@@ -10,200 +10,200 @@ import new
 
 class SimpleDao(AbstractDao.AbstractDao):
 
-	"""
-	DAO implemented without SQL backend.
+    """
+    DAO implemented without SQL backend.
 
-	Class attributes:
+    Class attributes:
 
-	 - INMEMORY_LOAD: procedure wth args dao, object to update
-	   object before return from list() and load() methods
-	"""
+     - INMEMORY_LOAD: procedure wth args dao, object to update
+       object before return from list() and load() methods
+    """
 
-	def __init__(self, logStream = None):
+    def __init__(self, logStream = None):
 
-		"""
-		logStream: output of logging messages.
-		"""
-		AbstractDao.AbstractDao.__init__(self, logStream)
+        """
+        logStream: output of logging messages.
+        """
+        AbstractDao.AbstractDao.__init__(self, logStream)
 
-	def list(self, exampleObject,
-	firstResult = 0, maxResults = 100000):
+    def list(self, exampleObject,
+    firstResult = 0, maxResults = 100000):
 
-		self._log("list()", exampleObject)
+        self._log("list()", exampleObject)
 
-		clazz = exampleObject.__class__
-		objectList = self._getWholeList(clazz)
-		result = []
+        clazz = exampleObject.__class__
+        objectList = self._getWholeList(clazz)
+        result = []
 
-		hint = self._getLoadHint(clazz)
+        hint = self._getLoadHint(clazz)
 
-		for obj in objectList:
-			hint(self, obj)
-			if self._objectsMatches(obj, exampleObject):
-				result.append(copy.copy(obj))
+        for obj in objectList:
+            hint(self, obj)
+            if self._objectsMatches(obj, exampleObject):
+                result.append(copy.copy(obj))
 
-		return result[firstResult:firstResult+maxResults]
+        return result[firstResult:firstResult+maxResults]
 
-	def listWhere(self, whereClause, clazz, argList = (),
-	filterFunctioin = None):
+    def listWhere(self, whereClause, clazz, argList = (),
+    filterFunctioin = None):
 
-		objectList = self._getWholeList(clazz)
-		result = []
-		for obj in objectList:
-			if filterFunctioin(obj, argList):
-				result.append(obj)
-		return result
+        objectList = self._getWholeList(clazz)
+        result = []
+        for obj in objectList:
+            if filterFunctioin(obj, argList):
+                result.append(obj)
+        return result
 
-	def listSQL(self, sqlQuery, clazz, argList = (),
-	filterModifyFunction = None):
+    def listSQL(self, sqlQuery, clazz, argList = (),
+    filterModifyFunction = None):
 
-		objectList = self._getWholeList(clazz)
-		result = []
-		for obj in objectList:
-			if filterModifyFunction(self, obj, argList):
-				result.append(obj)
-		return result
+        objectList = self._getWholeList(clazz)
+        result = []
+        for obj in objectList:
+            if filterModifyFunction(self, obj, argList):
+                result.append(obj)
+        return result
 
-	def count(self, exampleObject):
+    def count(self, exampleObject):
 
-		self._log("count()", exampleObject)
+        self._log("count()", exampleObject)
 
-		clazz = exampleObject.__class__
-		objectList = self._getWholeList(clazz)
-		n = 0
-		for obj in objectList:
-			if self._objectsMatches(obj, exampleObject):
-				n += 1
-		return n
+        clazz = exampleObject.__class__
+        objectList = self._getWholeList(clazz)
+        n = 0
+        for obj in objectList:
+            if self._objectsMatches(obj, exampleObject):
+                n += 1
+        return n
 
-	def delete(self, exampleObject):
+    def delete(self, exampleObject):
 
-		self._log("delete()", exampleObject)
+        self._log("delete()", exampleObject)
 
-		filled = False
-		for name, value in exampleObject.__dict__.items():
-			if not name.startswith("_") and value != None:
-				filled = True
-				break
-		if not filled:
-			raise self.WrongArgumentsException,\
-				"delete() argument must have at least one criteria "\
-				"(safety protection)"
+        filled = False
+        for name, value in exampleObject.__dict__.items():
+            if not name.startswith("_") and value != None:
+                filled = True
+                break
+        if not filled:
+            raise self.WrongArgumentsException,\
+                "delete() argument must have at least one criteria "\
+                "(safety protection)"
 
-		clazz = exampleObject.__class__
-		objectList = self._getWholeList(clazz)
-		tmpList = []
-		for obj in objectList:
-			if not self._objectsMatches(obj, exampleObject):
-				tmpList.append(obj)
-		self._replaceWholeList(clazz, tmpList)
-		return objectList
+        clazz = exampleObject.__class__
+        objectList = self._getWholeList(clazz)
+        tmpList = []
+        for obj in objectList:
+            if not self._objectsMatches(obj, exampleObject):
+                tmpList.append(obj)
+        self._replaceWholeList(clazz, tmpList)
+        return objectList
 
-	def deleteAll(self, clazz):
+    def deleteAll(self, clazz):
 
-		self._logClass("deleteAll()", clazz, None)
+        self._logClass("deleteAll()", clazz, None)
 
-		self._replaceWholeList(clazz, [])
+        self._replaceWholeList(clazz, [])
 
-	def save(self, anObject, ignoreNone = True):
+    def save(self, anObject, ignoreNone = True):
 
-		self._log("save()", anObject)
+        self._log("save()", anObject)
 
-		assert anObject
-		idName = self._getIdName(anObject)
-		if idName and not anObject.__dict__[idName]:
-			anObject.__dict__[idName] = self._newId(
-				anObject.__class__.__name__)
-		clazz = anObject.__class__
-		anObjectList = self._getWholeList(clazz)
-		anObjectList.append(anObject)
+        assert anObject
+        idName = self._getIdName(anObject)
+        if idName and not anObject.__dict__[idName]:
+            anObject.__dict__[idName] = self._newId(
+                anObject.__class__.__name__)
+        clazz = anObject.__class__
+        anObjectList = self._getWholeList(clazz)
+        anObjectList.append(anObject)
 
-		self._replaceWholeList(clazz, anObjectList)
+        self._replaceWholeList(clazz, anObjectList)
 
-	def load(self, clazz, objectID):
+    def load(self, clazz, objectID):
 
-		self._logClass("load()", clazz, objectID)
+        self._logClass("load()", clazz, objectID)
 
-		hint = self._getLoadHint(clazz)
+        hint = self._getLoadHint(clazz)
 
-		obj = new.instance(clazz)
-		obj.__init__()
-		idName = self._getIdName(obj)
+        obj = new.instance(clazz)
+        obj.__init__()
+        idName = self._getIdName(obj)
 
-		objectList = self._getWholeList(clazz)
-		for t in objectList:
-			if str(t.__dict__[idName]) == str(objectID):
-				hint(self, t)
-				return t
-		raise self.MissingObjectError,\
-			"not found: " + clazz.__name__\
-			+ "@" + str(objectID)
+        objectList = self._getWholeList(clazz)
+        for t in objectList:
+            if str(t.__dict__[idName]) == str(objectID):
+                hint(self, t)
+                return t
+        raise self.MissingObjectError,\
+            "not found: " + clazz.__name__\
+            + "@" + str(objectID)
 
-	def update(self, anObject, ignoreNone = True):
+    def update(self, anObject, ignoreNone = True):
 
-		self._log("update()", anObject)
+        self._log("update()", anObject)
 
-		idName = self._getIdName(anObject)
-		assert anObject.__dict__[idName],\
-			"for update anObject id has to be set"
+        idName = self._getIdName(anObject)
+        assert anObject.__dict__[idName],\
+            "for update anObject id has to be set"
 
-		clazz = anObject.__class__
-		anObjectList = self._getWholeList(clazz)
-		idName = self._getIdName(anObject)
-		for t in anObjectList:
-			if str(t.__dict__[idName]) == str(anObject.__dict__[idName]):
-				for name, value in anObject.__dict__.items():
-					if not ignoreNone or value:
-						t.__dict__[name] = value
-				self._replaceWholeList(clazz, anObjectList)
-				return
-		raise self.MissingObjectError,\
-			"not found: %s@%s" % (clazz.__name__, anObject.id)
+        clazz = anObject.__class__
+        anObjectList = self._getWholeList(clazz)
+        idName = self._getIdName(anObject)
+        for t in anObjectList:
+            if str(t.__dict__[idName]) == str(anObject.__dict__[idName]):
+                for name, value in anObject.__dict__.items():
+                    if not ignoreNone or value:
+                        t.__dict__[name] = value
+                self._replaceWholeList(clazz, anObjectList)
+                return
+        raise self.MissingObjectError,\
+            "not found: %s@%s" % (clazz.__name__, anObject.id)
 
-	def _newId(self, className):
-		
-		"""
-		Returns generated identifier.
-		"""
-		return 0
+    def _newId(self, className):
+        
+        """
+        Returns generated identifier.
+        """
+        return 0
 
-	def _getWholeList(self, clazz):
+    def _getWholeList(self, clazz):
 
-		"""
-		Returns list of objects based on clazz.
-		"""
-		return []
+        """
+        Returns list of objects based on clazz.
+        """
+        return []
 
-	def _replaceWholeList(self, clazz, lst):
+    def _replaceWholeList(self, clazz, lst):
 
-		"""
-		Replaces list of objects with new one.
-		"""
+        """
+        Replaces list of objects with new one.
+        """
 
 
-	def _objectsMatches(self, databaseObject, exampleObject):
+    def _objectsMatches(self, databaseObject, exampleObject):
 
-		for name, value in exampleObject.__dict__.items():
-			if not name.startswith("_") and value != None:
-				if not self._valueMatches(value,
-				databaseObject.__dict__[name],
-				databaseObject):
-					return 0
-		return 1
+        for name, value in exampleObject.__dict__.items():
+            if not name.startswith("_") and value != None:
+                if not self._valueMatches(value,
+                databaseObject.__dict__[name],
+                databaseObject):
+                    return 0
+        return 1
 
-	def _valueMatches(self, searchValue, dbValue, databaseObject):
+    def _valueMatches(self, searchValue, dbValue, databaseObject):
 
-		if isinstance(searchValue, Condition.Condition):
-			return searchValue.validateValue(dbValue)\
-				and searchValue.validateObject(databaseObject)
-		else:
-			return str(searchValue) == str(dbValue)
+        if isinstance(searchValue, Condition.Condition):
+            return searchValue.validateValue(dbValue)\
+                and searchValue.validateObject(databaseObject)
+        else:
+            return str(searchValue) == str(dbValue)
 
-	def _getLoadHint(self, clazz):
+    def _getLoadHint(self, clazz):
 
-		if clazz.__dict__.has_key("INMEMORY_LOAD"):
-			return clazz.__dict__["INMEMORY_LOAD"]
-		else:
-			return lambda x,y: None
+        if clazz.__dict__.has_key("INMEMORY_LOAD"):
+            return clazz.__dict__["INMEMORY_LOAD"]
+        else:
+            return lambda x,y: None
 
 

@@ -7,16 +7,16 @@ import Condition
 
 class NotNullCondition(Condition.Condition):
 
-	def generateWhereSQL(self, columnName):
+    def generateWhereSQL(self, columnName):
 
-		return columnName + " IS NOT NULL"
+        return columnName + " IS NOT NULL"
 
-	def generateArgs(self):
+    def generateArgs(self):
 
-		return []
+        return []
 
-	def validateValue(self, value):
+    def validateValue(self, value):
 
-		return value != None
+        return value != None
 
 
