@@ -29,8 +29,8 @@ class XmlStorageDaoTest(unittest.TestCase):
 
         self.dao.deleteAll(User)
         u = User()
-        # two iso-8859-2 characters
-        u.name = "Jack \xa3\xb1"
+        # two unicode characters
+        u.name = u'Jack \u0141\u0105'
         u.age = 32
         self.dao.save(u)
         self.dao.sync()
@@ -40,7 +40,7 @@ class XmlStorageDaoTest(unittest.TestCase):
         lista = dao2.list(u2)
         self.assertEquals(len(lista), 1,
             "one object read from XML")
-        self.assertEquals(lista[0].name, "Jack \xa3\xb1",
+        self.assertEquals(lista[0].name, u'Jack \u0141\u0105',
             "object attribute (string)")
         self.assertEquals(lista[0].age, 32,
             "object attribute (int)")

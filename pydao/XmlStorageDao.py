@@ -13,22 +13,21 @@ class XmlStorageDao(SimpleDao.SimpleDao):
 
     """
     DAO implemented in XML files.
-
-    To make this instance persistent use pickle module.
     """
 
     def __init__(self, directory, encoding, logStream = None):
 
         """
         directory: where to put XML files
-        encofing: encoding used inside application,
-          if None, assume unicode objects
+        encofing: encoding used for XML files
         logStream: output of logging messages.
         """
 
         SimpleDao.SimpleDao.__init__(self, logStream)
         self.directory = directory
         self.encoding = encoding
+        assert self.encoding,\
+            "encoding must be specified, for instance: 'utf-8'"
         self.classNameToList = {}
         self.dirtyClasses = {}
 
@@ -98,13 +97,16 @@ class XmlStorageDao(SimpleDao.SimpleDao):
                 if name[0] != "_" and value != None:
                     if isinstance(value, int):
                         typeName = "int"
+                        value = str(value)
                     elif isinstance(value, float):
                         typeName = "float"
+                        value = str(value)
                     else:
                         typeName = "str"
                     f.write("    <attribute name=\"" \
                         + name + "\" value=\""\
-                        + xml.sax.saxutils.escape(str(value))\
+                        + xml.sax.saxutils.escape(
+                            value.encode(self.encoding))\
                         + "\" type=\"" + typeName + "\"/>\n")
             f.write("  </object>\n")
         f.write("</xml>\n")
@@ -123,16 +125,6 @@ class _DataHandler(xml.sax.ContentHandler):
 
     # SAX hooks
     def startElement(self, name, attrs):
-
-        arr = {}
-        for (nazwa, wartosc) in attrs.items():
-            arr[nazwa.encode("ISO-8859-2")]\
-            = str(wartosc.encode("ISO-8859-2"))
-        
-        self.startElementISO2(
-            name.encode("ISO-8859-2"), arr)
-
-    def startElementISO2(self, name, attrs):
 
         if name == "object":
             self.attributes = {}
