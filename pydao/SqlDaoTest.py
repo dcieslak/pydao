@@ -38,20 +38,24 @@ class SqlDaoTest(unittest.TestCase):
         self.c1.id = 111590
         self.c1.name = "c1"
         self.dao.save(self.c1)
+        self.c1._asdf = "c1"
         assert self.c1.id
 
         self.c2 = Company()
         self.c2.name = "c2"
+        self.c2._asdf = "c1"
         self.dao.save(self.c2)
 
         self.u1 = User()
         self.u1.login = "u1"
         self.u1.companyID = self.c2.id
         self.dao.save(self.u1)
+        self.u1._asdf = "c1"
 
         self.u2 = User()
         self.u2.login = "u2"
         self.dao.save(self.u2)
+        self.u2._asdf = "c1"
 
     def test_missing_SQL_TABLE(self):
 
@@ -126,6 +130,14 @@ class SqlDaoTest(unittest.TestCase):
         c = self.dao.load(Company, self.c2.id)
         self.assertEquals(c._numberOfUsers, 1,
             "value from aggregate function")
+
+    def test_delete(self):
+
+        self.dao.delete(self.c2)
+
+    def test_list(self):
+
+        self.dao.list(self.c2)
 
 
 class User:

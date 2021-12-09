@@ -16,9 +16,9 @@ pydao/OrCondition              24     24   100%
 pydao/PostgresqlDao            30     30   100%   
 pydao/SimpleDao               117    116    99%   29
 pydao/SqlDao                  312    310    99%   124, 463
-pydao/SqlDaoTest               94     94   100%   
-pydao/XmlStorageDao           100     95    95%   67, 102, 129, 148, 152
+pydao/SqlDaoTest              100    100   100%   
+pydao/XmlStorageDao            98     95    96%   66, 102, 144
 pydao/XmlStorageDaoTest        32     32   100%   
 pydao/__init__                  0      0   100%   
 ---------------------------------------------------------
-TOTAL                        1263   1237    97%   
+TOTAL                        1267   1243    98%   

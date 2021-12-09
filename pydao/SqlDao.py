@@ -131,7 +131,7 @@ class SqlDao(AbstractDao.AbstractDao):
         valueList = []
         nameList = []
         for name, value in exampleObject.__dict__.items():
-            if value != None:
+            if not name.startswith("_") and value != None:
                 if isinstance(value, Condition.Condition):
                     nameList.append(" AND " +
                         value.generateWhereSQL("T." + name))
@@ -248,7 +248,7 @@ class SqlDao(AbstractDao.AbstractDao):
         valueList = []
         nameList = []
         for name, value in exampleObject.__dict__.items():
-            if value != None:
+            if not name.startswith("_") and value != None:
                 if isinstance(value, Condition.Condition):
                     nameList.append(" AND " +
                         value.generateWhereSQL(name))
